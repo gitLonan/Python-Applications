@@ -6,15 +6,15 @@
     {
       "dt": 1706734800,
       "main": {
-        "temp": 1.37,
-        "feels_like": 1.37,
-        "temp_min": 1.37,
+        "temp": 0.68,
+        "feels_like": 0.68,
+        "temp_min": 0.68,
         "temp_max": 2.3,
-        "pressure": 1034,
-        "sea_level": 1034,
+        "pressure": 1031,
+        "sea_level": 1031,
         "grnd_level": 1010,
-        "humidity": 67,
-        "temp_kf": -0.93
+        "humidity": 75,
+        "temp_kf": -1.62
       },
       "weather": [
         {
@@ -42,15 +42,15 @@
     {
       "dt": 1706745600,
       "main": {
-        "temp": 1.4,
-        "feels_like": 1.4,
-        "temp_min": 1.4,
+        "temp": 1.06,
+        "feels_like": 1.06,
+        "temp_min": 1.06,
         "temp_max": 1.65,
-        "pressure": 1033,
-        "sea_level": 1033,
+        "pressure": 1032,
+        "sea_level": 1032,
         "grnd_level": 1009,
-        "humidity": 63,
-        "temp_kf": -0.25
+        "humidity": 66,
+        "temp_kf": -0.59
       },
       "weather": [
         {
@@ -1448,14 +1448,14 @@
     }
   ],
   "city": {
-    "id": 787925,
-    "name": "Mirijevo",
+    "id": 865964,
+    "name": "Palilula",
     "coord": {
       "lat": 44.7998,
       "lon": 20.5033
     },
     "country": "RS",
-    "population": 0,
+    "population": 1000,
     "timezone": 3600,
     "sunrise": 1706680759,
     "sunset": 1706715790

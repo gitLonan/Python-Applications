@@ -13,31 +13,31 @@
   ],
   "base": "stations",
   "main": {
-    "temp": 0.9,
-    "feels_like": 0.9,
+    "temp": -0.13,
+    "feels_like": -0.13,
     "temp_min": -1.69,
     "temp_max": 1.52,
-    "pressure": 1034,
-    "humidity": 75
+    "pressure": 1030,
+    "humidity": 86
   },
   "visibility": 10000,
   "wind": {
     "speed": 1.03,
-    "deg": 360
+    "deg": 30
   },
   "clouds": {
     "all": 0
   },
-  "dt": 1706725005,
+  "dt": 1706727735,
   "sys": {
-    "type": 1,
-    "id": 7028,
+    "type": 2,
+    "id": 2037836,
     "country": "RS",
     "sunrise": 1706680759,
     "sunset": 1706715790
   },
   "timezone": 3600,
-  "id": 865964,
-  "name": "Palilula",
+  "id": 784252,
+  "name": "Vra\u010dar",
   "cod": 200
 }

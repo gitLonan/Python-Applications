@@ -26,7 +26,7 @@ def current_weather_data(latitude, longitude, user):
     if response:
         result = json.loads(response)
         #print(json.dumps(result, indent=2))
-        with open("Weather & Pollution/all the json files/Current Weather.json", "w") as f:
+        with open("Weather and Pollution/all the json files/Current Weather.json", "w") as f:
             json.dump(result, f, indent=2)
 
 def weather_dayBy_day(latitude, longitude, user, day=5):
@@ -35,8 +35,8 @@ def weather_dayBy_day(latitude, longitude, user, day=5):
     response = Network_communication.url_access(url)
     if response:
         result = json.loads(response)
-        #print(json.dumps(result, indent=2))
-        with open("Weather & Pollution/all the json files/Weather_3h_step_5days.json", "w") as f:
+        #print(json.dumps(result, indent=2))Weather and Pollution\all the json files
+        with open("Weather and Pollution/all the json files/Weather_3h_step_5days.json", "w") as f:
             json.dump(result, f, indent=2)
 
 def main(user):
