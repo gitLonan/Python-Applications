@@ -1,7 +1,7 @@
 {
   "coord": {
-    "lon": 20.5033,
-    "lat": 44.7998
+    "lon": 20.4978,
+    "lat": 44.7985
   },
   "weather": [
     {
@@ -15,26 +15,26 @@
   "main": {
     "temp": -0.13,
     "feels_like": -0.13,
-    "temp_min": -1.69,
-    "temp_max": 1.52,
-    "pressure": 1030,
-    "humidity": 86
+    "temp_min": -2.51,
+    "temp_max": 1.7,
+    "pressure": 1033,
+    "humidity": 80
   },
   "visibility": 10000,
   "wind": {
     "speed": 1.03,
-    "deg": 30
+    "deg": 360
   },
   "clouds": {
     "all": 0
   },
-  "dt": 1706727735,
+  "dt": 1706729028,
   "sys": {
-    "type": 2,
-    "id": 2037836,
+    "type": 1,
+    "id": 7028,
     "country": "RS",
-    "sunrise": 1706680759,
-    "sunset": 1706715790
+    "sunrise": 1706680760,
+    "sunset": 1706715792
   },
   "timezone": 3600,
   "id": 784252,
