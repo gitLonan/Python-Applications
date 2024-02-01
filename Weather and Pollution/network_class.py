@@ -36,7 +36,7 @@ class Network_communication:
             with open("Weather and Pollution/all the json files/Current Weather.json", "w") as f:
                 json.dump(result, f, indent=2)
 
-    def get_weatherFor_5days_data(latitude: float, longitude: float, user):
+    def get_forecast_weatherFor_5days_data(latitude: float, longitude: float, user):
         """ Weather for the next 5 days(including today) sends to `all the json files` """
 
         url = f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={user.api_key}&units=metric"
@@ -44,10 +44,10 @@ class Network_communication:
         if response:
             result = json.loads(response)
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
-            with open("Weather and Pollution/all the json files/Weather_3h_step_5days.json", "w") as f:
+            with open("Weather and Pollution/all the json files/Forecast_weather_3h_step_5days.json", "w") as f:
                 json.dump(result, f, indent=2)
 
-    def get_pollution_4days_data(latitude: float, longitude: float, user):
+    def get_current_pollution(latitude: float, longitude: float, user):
         """ Pollution for the next 4days, all the negative particals -> `all the json files` """
         
         url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}&appid={user.api_key}"
@@ -55,5 +55,19 @@ class Network_communication:
         if response:
             result = json.loads(response)
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
-            with open("Weather and Pollution/all the json files/Pollution_4days.json", "w") as f:
+            with open("Weather and Pollution/all the json files/Current Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
+
+    def get_forcast_air_polution(latitude: float, longitude: float, user):
+
+        url = f"http://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={latitude}&lon={longitude}&appid={user.api_key}"  
+        response = Network_communication.url_access(url)
+        if response:
+            result = json.loads(response)
+            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
+            with open("Weather and Pollution/all the json files/Forecast Pollution.json", "w") as f:
+                json.dump(result, f, indent=2)
+
+
+
+

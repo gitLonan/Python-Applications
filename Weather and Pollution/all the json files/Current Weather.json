@@ -5,30 +5,30 @@
   },
   "weather": [
     {
-      "id": 800,
-      "main": "Clear",
-      "description": "clear sky",
-      "icon": "01n"
+      "id": 802,
+      "main": "Clouds",
+      "description": "scattered clouds",
+      "icon": "03n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 4.03,
-    "feels_like": 4.03,
+    "temp": 4,
+    "feels_like": 4,
     "temp_min": 2.31,
     "temp_max": 5.01,
-    "pressure": 1022,
+    "pressure": 1023,
     "humidity": 71
   },
   "visibility": 10000,
   "wind": {
-    "speed": 0.51,
+    "speed": 0,
     "deg": 0
   },
   "clouds": {
-    "all": 0
+    "all": 40
   },
-  "dt": 1706816014,
+  "dt": 1706816810,
   "sys": {
     "type": 2,
     "id": 2037836,
@@ -37,7 +37,7 @@
     "sunset": 1706802276
   },
   "timezone": 3600,
-  "id": 865964,
-  "name": "Palilula",
+  "id": 784252,
+  "name": "Vra\u010dar",
   "cod": 200
 }

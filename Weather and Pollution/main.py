@@ -22,10 +22,21 @@ weather_data = {
         "sunset": None 
 }
 
+pollution_data = {
+        "co": None, #Carbon monoxide
+        "no": None, #Nitrogen monoxide
+        "no2": None, #Nitrogen dioxide
+        "o3": None, #Ozone
+        "so2": None, #Sulphur dioxide
+        "pm2_5": None,  #particulate matter and the 2.5 refers to size 2.5 micrometres or smaller
+        "pm10": None,   #particulate matter and the 10 refers to size 10 micrometres or smaller
+        "nh3": None #Ammonia
+
+}
 
 def loading_current_weather(user):
     """ Loads data form Current Weather.json file """
-    
+
     weather_data['City name'] = user.location
     with open("Weather and Pollution/all the json files/Current Weather.json", "r") as f:
         data = json.load(f)
@@ -46,12 +57,18 @@ def loading_current_weather(user):
 
         print(weather_data)
 
+def loading_pollution(user):
+    with open("Weather and Pollution/all the json files/Current Weather.json", "r") as f:
+        data = json.load(f)
+        for key, value in data.items():
+            pass
+
 def main(user):
     latitude, longitude = Network_communication.get_latitude_longitude(user)
-    #Network_communication.get_current_weather_data(latitude, longitude, user)
-    #Network_communication.get_weatherFor_5days_data(latitude, longitude, user)
-    #Network_communication.get_pollution_4days_data(latitude, longitude, user)
-
+    Network_communication.get_current_weather_data(latitude, longitude, user)
+    Network_communication.get_current_pollution(latitude, longitude, user)
+    Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+    Network_communication.get_forcast_air_polution(latitude, longitude, user)
 
 
 
