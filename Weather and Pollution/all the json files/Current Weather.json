@@ -13,22 +13,22 @@
   ],
   "base": "stations",
   "main": {
-    "temp": 4.47,
-    "feels_like": 2.69,
-    "temp_min": 3.31,
-    "temp_max": 4.86,
+    "temp": 4.03,
+    "feels_like": 4.03,
+    "temp_min": 2.31,
+    "temp_max": 5.01,
     "pressure": 1022,
-    "humidity": 69
+    "humidity": 71
   },
   "visibility": 10000,
   "wind": {
-    "speed": 2.06,
-    "deg": 110
+    "speed": 0.51,
+    "deg": 0
   },
   "clouds": {
     "all": 0
   },
-  "dt": 1706812056,
+  "dt": 1706816014,
   "sys": {
     "type": 2,
     "id": 2037836,
@@ -37,7 +37,7 @@
     "sunset": 1706802276
   },
   "timezone": 3600,
-  "id": 784252,
-  "name": "Vra\u010dar",
+  "id": 865964,
+  "name": "Palilula",
   "cod": 200
 }
