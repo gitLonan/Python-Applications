@@ -4,16 +4,16 @@ from style_class import Style
 class User:
     """ Alpha-2 code is a standard, look online ISO3166"""
     def __init__(self,):
-        self.place_name = ''
+        self.location = ''
         self.alpha_2_code = ''
         self.api_key = ''
 
     def set_place_name(self,):
-        """ Sets at what place on the planet you want to search for the weather and other stuff """
+        """ Sets at what place on the planet you want to search for the weather and the other stuff """
 
         #place = input("Type where you are form: ")
         place = "Zvezdara"
-        self.place_name = place
+        self.location = place
 
     def set_Alpha2_code_for_country(self,) -> type(str):
         """ Sets alpha 2 code which you can find by typing ISO3166 in google and find your country """

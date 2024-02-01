@@ -12,7 +12,7 @@ class Network_communication:
     def get_latitude_longitude(user)-> tuple[float, float]:
         """  Gets latitude and longitude based on user.place and user.alpha_2_code """
 
-        url = f"http://api.openweathermap.org/geo/1.0/direct?q={user.place_name}&limit={5}&appid={user.api_key}"
+        url = f"http://api.openweathermap.org/geo/1.0/direct?q={user.location}&limit={5}&appid={user.api_key}"
         response = Network_communication.url_access(url)
         if response:
             result = json.loads(response)
