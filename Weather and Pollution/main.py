@@ -23,14 +23,14 @@ weather_data = {
 }
 
 pollution_data = {
-        "co": None, #Carbon monoxide
-        "no": None, #Nitrogen monoxide
-        "no2": None, #Nitrogen dioxide
-        "o3": None, #Ozone
-        "so2": None, #Sulphur dioxide
+        "co": None,     #Carbon monoxide
+        "no": None,     #Nitrogen monoxide
+        "no2": None,    #Nitrogen dioxide
+        "o3": None,     #Ozone
+        "so2": None,    #Sulphur dioxide
         "pm2_5": None,  #particulate matter and the 2.5 refers to size 2.5 micrometres or smaller
         "pm10": None,   #particulate matter and the 10 refers to size 10 micrometres or smaller
-        "nh3": None #Ammonia
+        "nh3": None     #Ammonia
 
 }
 
@@ -52,23 +52,37 @@ def loading_current_weather(user):
             elif type(value) == list:
                 for i in value[0]:
                     if i in weather_data:
-                        print(i, weather_data[i])
+                       
                         weather_data[i] = value[0][i]
+        #print(weather_data)
 
-        print(weather_data)
-
-def loading_pollution(user):
-    with open("Weather and Pollution/all the json files/Current Weather.json", "r") as f:
+def loading_pollution():
+    with open("Weather and Pollution/all the json files/Current Pollution.json", "r") as f:
         data = json.load(f)
+        #get to the dict thats raping dicts with list called ->`list` in json
         for key, value in data.items():
-            pass
+            if type(value) == list:
+                break
+        #getting to the key called components
+        for i in value:
+            for key, val in i.items():
+                if key == 'components':
+                    break
+        #extracting information from the components dict and adding to our pollution data
+        for key,value in val.items():
+            if key in pollution_data:
+                pollution_data[key] = value
+           
+
+        print(pollution_data)
+
 
 def main(user):
     latitude, longitude = Network_communication.get_latitude_longitude(user)
-    Network_communication.get_current_weather_data(latitude, longitude, user)
-    Network_communication.get_current_pollution(latitude, longitude, user)
-    Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
-    Network_communication.get_forcast_air_polution(latitude, longitude, user)
+    #Network_communication.get_current_weather_data(latitude, longitude, user)
+    #Network_communication.get_current_pollution(latitude, longitude, user)
+    #Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+    #Network_communication.get_forcast_air_polution(latitude, longitude, user)
 
 
 
@@ -79,6 +93,7 @@ if __name__ == "__main__":
     user.set_Alpha2_code_for_country()
     user.set_API_key()
     loading_current_weather(user)
+    loading_pollution()
     main(user)
 
 
