@@ -1,7 +1,7 @@
 {
   "coord": {
-    "lon": 20.5033,
-    "lat": 44.7998
+    "lon": 20.4138,
+    "lat": 44.7594
   },
   "weather": [
     {
@@ -13,31 +13,31 @@
   ],
   "base": "stations",
   "main": {
-    "temp": 10.3,
-    "feels_like": 9.14,
-    "temp_min": 8.31,
-    "temp_max": 11.12,
-    "pressure": 1017,
-    "humidity": 67
+    "temp": 8.22,
+    "feels_like": 6.02,
+    "temp_min": 4.64,
+    "temp_max": 12,
+    "pressure": 1020,
+    "humidity": 73
   },
   "visibility": 10000,
   "wind": {
-    "speed": 3.09,
-    "deg": 220
+    "speed": 3.6,
+    "deg": 180
   },
   "clouds": {
     "all": 0
   },
-  "dt": 1707069995,
+  "dt": 1707080555,
   "sys": {
-    "type": 2,
-    "id": 2037836,
+    "type": 1,
+    "id": 7028,
     "country": "RS",
-    "sunrise": 1707026084,
-    "sunset": 1707061734
+    "sunrise": 1707026100,
+    "sunset": 1707061761
   },
   "timezone": 3600,
-  "id": 865964,
-  "name": "Palilula",
+  "id": 791704,
+  "name": "\u010cukarica",
   "cod": 200
 }

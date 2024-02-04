@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import json, urllib.request, time, sys, datetime, calendar
+import json, urllib.request, time, sys, datetime
 from style_class import Style
 from user_class import User
 from network_class import Network_communication
@@ -20,7 +20,8 @@ weather_data = {
         "timezone": None,
         "sunrise": None,
         "sunset": None, 
-        "icon": None
+        "icon": None,
+        "dt": None,
 }
 
 pollution_data = {
@@ -78,33 +79,44 @@ def loading_pollution():
         print(pollution_data)
 
 def window_Current_weather_creation(win_location):
-    """
-    
-    """
-    sg.theme('LightBrown6')
+    print(win_location)
+    """ Creating window for Current Weather and its layout """
+
+    sg.theme('LightBlue6')
     BG_COLOR = sg.theme_text_color()
     TXT_COLOR = sg.theme_background_color()
     DEGREE_SIGN = u"\N{DEGREE SIGN}"
-    year_entire = datetime.date.today().strftime("%Y")
-    month_text = datetime.date.today().strftime("%B")
-    #month_text = datetime.date.today().month
-    today = datetime.date.today().day
-    current_date = f"{today}-{month_text}-{year_entire}"
 
+    #### Date object
+    date_object = datetime.datetime.utcfromtimestamp(weather_data['dt'])
+    year = date_object.year
+    month = date_object.month
+    day = date_object.day
+    current_date = f'{day:02d}-{month:02d}-{year}'
+
+    #Getting img from the weeb
     image = Network_communication.request_weather_icon(weather_data["icon"])
+
+    #Getting sec,min,hour from the datetime module
+    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+    #print(f'Current Time: {hour:02d}:{minute:02d}:{second:02d}')
+
+
+
     ################ THESE ARE KEYS FOR ALL THE THINGS #################
-    # top_col1 -> -data time-
+    # top_col1 -> -data time-   -time-
     # top_col2 -> -city name-
     # top_layer -> -top layer-
 
-    # middle_col1 -> -image-
-    # middle_col2 -> -weather description-
-    # middle_col3 -> in fun metric_row -> -data_in_weatherDic- (name of the given metric form weather_data)
+    # middle_col1 -> -image-  -weather description-
+    # middle_col2 ->    
+    # middle_col3 -> in func 'metric_row' -> -data_in_weatherDic- (name of the given metric form weather_data)
     # middle_layer -> -middle layer-
 
     
 
-    top_col1 = sg.Column([[sg.Text(current_date,background_color=BG_COLOR,text_color=TXT_COLOR, font=('Arial', 14), key="-data time-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
+    top_col1 = sg.Column([[sg.Text(text=current_date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), key="-date time-")],
+                          [sg.Text(text=current_time, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), pad=(10,0), key="-TIME-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
     top_col2 = sg.Column([[sg.Text(weather_data['City name'], background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 25), justification="left", key='-city name-')]],pad=(10, 5), expand_x=True,background_color=BG_COLOR)
 
     top_layer = sg.Column([[top_col1, top_col2]],
@@ -125,18 +137,44 @@ def window_Current_weather_creation(win_location):
           [middle_layer],
           
           ]
-    windows = sg.Window(layout=layout,title="Weather",
+    window = sg.Window(layout=layout,title="Weather",
                         element_justification='center',
                         margins=(0, 0),
                         grab_anywhere=True,
                         alpha_channel=0.8,
-                        right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution", 'Exit',]],
+                        right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place", 'Exit',]],
                         no_titlebar=True,
                         finalize=True,
                         location=win_location)
     
-    return windows
+    return window
 
+def window_current_polution_creation(win_location):
+    BG_COLOR = sg.theme_text_color()
+    TXT_COLOR = sg.theme_background_color()
+    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+    current_date = datetime.datetime.now().strftime('%d-%m-%Y')
+    top_col1 = sg.Column([[sg.Text(text=current_date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), key="-date time-")],
+                          [sg.Text(text=current_time, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), pad=(10,0), key="-TIME-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
+    top_col2 = sg.Column([[sg.Text(weather_data['City name'], background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 25), justification="left", key='-city name-')]],pad=(10, 5), expand_x=True,background_color=BG_COLOR)
+
+    top_layer = sg.Column([[top_col1, top_col2]],
+                                pad=(0,0),background_color=BG_COLOR,expand_y=True, expand_x=True, key="-top layer-")
+    middle_col1 = sg.Column([[sg.Text("image", size=(10,5),background_color=BG_COLOR, key="-image2-")]])
+
+    layout = [[top_layer],
+              [middle_col1]]
+
+    window = sg.Window(layout=layout,title="Weather",
+                        element_justification='center',
+                        margins=(0, 0),
+                        grab_anywhere=True,
+                        alpha_channel=0.8,
+                        right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place", 'Exit',]],
+                        no_titlebar=True,
+                        finalize=True,
+                        location=win_location)
+    return window
 
 def metric_row(data_in_weatherDic, symbol,text):
     """ Return a pair of labels for each metric """
@@ -155,16 +193,28 @@ def main(user,win_location):
     loading_pollution()
 
     
-    windows = window_Current_weather_creation(win_location)
-
+    window = window_Current_weather_creation(win_location)
+    window_pollution = None
+#'Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place"
     while True:
-        event, values = windows.read()
-    
+        event, values = window.read(timeout=200)
         if event == "Exit":
-            sg.user_settings_set_entry('-win location-', windows.current_location())
+            sg.user_settings_set_entry('-win location-', window.current_location())
             break
-        
-
+        elif event == "Change Place":
+            print("Ulazim ?")
+            pass
+        elif event == "Current Weather":
+            windo_copy = window
+            window = window_Current_weather_creation(win_location)
+            windo_copy.close()
+        elif event == "Current Pollution":
+            windo_copy = window
+            window = window_current_polution_creation(win_location)
+            windo_copy.close()
+        if event == sg.TIMEOUT_KEY:
+            current_time = datetime.datetime.now().strftime('%H:%M:%S')
+            window["-TIME-"].update(current_time)
 
 if __name__ == "__main__":
     user = User()
@@ -172,7 +222,11 @@ if __name__ == "__main__":
     user.set_Alpha2_code_for_country()
     user.set_API_key()
     win_location = sg.user_settings_get_entry('-win location-', (None, None))
+    #if not isinstance(win_location, tuple) or len(win_location) != 2 or not all(isinstance(val, (int, float)) for val in win_location):
+        # Set a default location if the retrieved value is not valid
+        #win_location = (None, None)
     
+    print(win_location)
     main(user,win_location)
 
 
