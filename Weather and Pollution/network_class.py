@@ -1,5 +1,7 @@
 import json, urllib.request, time
 from style_class import Style
+from io import BytesIO
+from PIL import Image, ImageTk
 class Network_communication:
 
     def url_access(url):
@@ -68,6 +70,14 @@ class Network_communication:
             with open("Weather and Pollution/all the json files/Forecast Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
 
+    def request_weather_icon(icon_id=None):
+        filename = 'temp_image.png'
+        url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
+        with urllib.request.urlopen(url) as response:
+            image_bytes = BytesIO(response.read()) #converting img to a byte like object
+            image = Image.open(image_bytes)
+            image.save(filename)
 
+            return filename
 
 

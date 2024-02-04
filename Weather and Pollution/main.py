@@ -19,7 +19,8 @@ weather_data = {
         "country": "None",
         "timezone": None,
         "sunrise": None,
-        "sunset": None 
+        "sunset": None, 
+        "icon": None
 }
 
 pollution_data = {
@@ -54,7 +55,7 @@ def loading_current_weather(user):
                     if i in weather_data:
                        
                         weather_data[i] = value[0][i]
-        #print(weather_data)
+        print(weather_data)
 
 def loading_pollution():
     with open("Weather and Pollution/all the json files/Current Pollution.json", "r") as f:
@@ -84,7 +85,13 @@ def window_Current_weather_creation(win_location):
     BG_COLOR = sg.theme_text_color()
     TXT_COLOR = sg.theme_background_color()
     DEGREE_SIGN = u"\N{DEGREE SIGN}"
+    year_entire = datetime.date.today().strftime("%Y")
+    month_text = datetime.date.today().strftime("%B")
+    #month_text = datetime.date.today().month
+    today = datetime.date.today().day
+    current_date = f"{today}-{month_text}-{year_entire}"
 
+    image = Network_communication.request_weather_icon(weather_data["icon"])
     ################ THESE ARE KEYS FOR ALL THE THINGS #################
     # top_col1 -> -data time-
     # top_col2 -> -city name-
@@ -95,26 +102,22 @@ def window_Current_weather_creation(win_location):
     # middle_col3 -> in fun metric_row -> -data_in_weatherDic- (name of the given metric form weather_data)
     # middle_layer -> -middle layer-
 
-    #Gabriola
-    top_col1 = sg.Column([[sg.Text("Date time",background_color=BG_COLOR,text_color=TXT_COLOR, key="-data time-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
+    
+
+    top_col1 = sg.Column([[sg.Text(current_date,background_color=BG_COLOR,text_color=TXT_COLOR, font=('Arial', 14), key="-data time-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
     top_col2 = sg.Column([[sg.Text(weather_data['City name'], background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 25), justification="left", key='-city name-')]],pad=(10, 5), expand_x=True,background_color=BG_COLOR)
 
     top_layer = sg.Column([[top_col1, top_col2]],
                                 pad=(0,0),background_color=BG_COLOR,expand_y=True, expand_x=True, key="-top layer-")
     
-    middle_col1 = sg.Column([[sg.Image("Weather and Pollution/sunny.PNG", size=(150,100),background_color=BG_COLOR, key="-image-")],
+    middle_col1 = sg.Column([[sg.Image(image, size=(150,100),background_color=BG_COLOR, key="-image-")],
                              [sg.Text(f"Weather: {weather_data['description']}",background_color=BG_COLOR,text_color=TXT_COLOR,pad=(10,0), key="-weather description-")]],background_color=BG_COLOR)
-    middle_col2 = sg.Column([[sg.Text(f'{weather_data["temp"]}{DEGREE_SIGN}C', font=('Haettenschweiler', 60),background_color=BG_COLOR, text_color=TXT_COLOR)]])
+    middle_col2 = sg.Column([[sg.Text(f'{weather_data["temp"]}{DEGREE_SIGN}C', font=('Haettenschweiler', 60),background_color=BG_COLOR, text_color=TXT_COLOR,pad=((0, 0), (10, 10)))]],background_color=BG_COLOR)
     middle_col3 = sg.Column([metric_row('feels_like',DEGREE_SIGN,"Feels like:"), metric_row('temp_min',DEGREE_SIGN,"Area temp min:"), metric_row('temp_max',DEGREE_SIGN,"Area temp max:"), metric_row('pressure',"Pa","Pressure:"), metric_row('humidity',"%", "Humidity:"), metric_row('visibility',"m","Visibility:")],
                         pad=((10, 0), (5, 10)), key='RtCOL')
     
     middle_layer = sg.Column([[middle_col1, middle_col2, middle_col3]],
                                 pad=(0,0),background_color=BG_COLOR, key="-middle layer-")
-
-    bottom_col1 = sg.Column([[sg.Text("TEST COL 3", font=('Arial', 8), background_color=BG_COLOR, text_color=TXT_COLOR, key='Updated')]],
-                      pad=(10, 5), element_justification='left', background_color=BG_COLOR, key='COL3', expand_x=True)
-
-    
 
     
 
