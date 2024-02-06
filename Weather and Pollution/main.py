@@ -34,12 +34,20 @@ weather_data = {
         "icon": None,
         "dt": None,
 }  
-#               SO2         NO2         PM10        PM2,5       O3          CO
-# #Good	1	    [0; 20)	    [0; 40)	    [0; 20)	    [0; 10)	    [0; 60)	    [0; 4400)
-# Fair	2	    [20; 80)	[40; 70)	[20; 50)	[10; 25)	[60; 100)	[4400; 9400)
-# Moderate	3	[80; 250)	[70; 150)	[50; 100)	[25; 50)	[100; 140)	[9400-12400)
-# Poor	4	    [250; 350)	[150; 200)	[100; 200)	[50; 75)	[140; 180)	[12400; 15400)
-# Very Poor	5	⩾350	    ⩾200	    ⩾200	   ⩾75	       ⩾180	       ⩾15400
+weather_data_forecast = {
+        "City name": "No information",
+        "speed": {}, #wind_speed
+        "description": {}, 
+        "temp": {},         
+        "icon": {},
+        #"dt": [],
+        # "pressure": [],
+        # "humidity": [],
+        # "visibility": [],
+        # "temp_min": [],      
+        # "temp_max": [], 
+}  
+
 
 pollution_data = {
         "co": None,     #Carbon monoxide    #
@@ -49,8 +57,20 @@ pollution_data = {
         "so2": None,    #Sulphur dioxide    #
         "pm2_5": None,  #particulate matter and the 2.5 refers to size 2.5 micrometres or smaller   #
         "pm10": None,   #particulate matter and the 10 refers to size 10 micrometres or smaller     #
-        "nh3": None     #Ammonia
+        "nh3": None,     #Ammonia
+        "dt": None
+}
 
+pollution_data_forecast = {
+        "co": {},     #Carbon monoxide    #
+        "no": {},     #Nitrogen monoxide  
+        "no2": {},    #Nitrogen dioxide   #
+        "o3": {},     #Ozone              #
+        "so2": {},    #Sulphur dioxide    #
+        "pm2_5": {},  #particulate matter and the 2.5 refers to size 2.5 micrometres or smaller   #
+        "pm10": {},   #particulate matter and the 10 refers to size 10 micrometres or smaller     #
+        "nh3": {},     #Ammonia
+        "dt": {}
 }
 
 def loading_current_weather(user):
@@ -86,18 +106,158 @@ def loading_pollution():
         for i in value:
             for key, val in i.items():
                 if key == 'components':
-                    break
+                    components_key = val
+                elif type(val) == int:
+                    if key in pollution_data:
+                        pollution_data[key] = val
         #extracting information from the components dict and adding to our pollution data
-        for key,value in val.items():
+        for key,value in components_key.items():
             if key in pollution_data:
                 pollution_data[key] = value
-           
+        #print(pollution_data)
+                
+def loading_forecast_pollution(days_pollution): 
+    """
+        Loading all the values from `Forecast Pollution.json` to thier respected nested dicts in `pollution_data_forecast`
+        Now they are ready to be parsed, for further logical reasoning behind this algo, look for the comments between steps
+        they will clarify further details
 
-        print(pollution_data)
+        day_pollution : list -> getting the list of days by which ill compare the current time of data['list']['dt']
 
+    """
+    day_index = 0
+    checking_for_next_day = 0
+    with open("Weather and Pollution/all the json files/Forecast Pollution.json", "r") as file:
+        data = json.load(file)
+        #get to the list that is bascially the whole file
+        for key, value in data.items():
+            if type(value) == list:
+                break
+        index_of_nested_dicts_of_components = 0
+        while True:
+            # by the index above going through the list in data for the key `components``
+            list_component = value[index_of_nested_dicts_of_components]['components']
+
+            #in every index in the list i need to check for key `dt`, because that will determine further down if the key `component`
+            #is in the current day or next
+            date_object = datetime.datetime.utcfromtimestamp(value[index_of_nested_dicts_of_components]['dt'])
+            day = date_object.day
+
+            for key, val in list_component.items():
+                if day == days_pollution[day_index]:
+
+                    day_str = str(days_pollution[day_index]) #just soo its compact, basically index of the day that i will be comparing
+
+                    if day_str not in pollution_data_forecast[key]:
+                        # If the key does not exist, initialize it with an empty list, if there isnt blank nested dict of that day its added
+                        pollution_data_forecast[key][day_str] = []
+                    else:
+                        pollution_data_forecast[key][day_str].append(val)
+            try:
+                checking_for_next_day = datetime.datetime.utcfromtimestamp(value[index_of_nested_dicts_of_components+1]['dt'])
+            except IndexError:
+                break
+            
+            if checking_for_next_day.day != day:
+                day_index +=1
+            if index_of_nested_dicts_of_components+1 > len(data['list']):
+                break
+            index_of_nested_dicts_of_components += 1
+        #print(pollution_data_forecast)
+
+def loading_forecast_weather(days_weather,user):
+    """
+    Did diffirent approach to `forecast weather` then `forecast pollution`, wanted to design a diffrent algo and see which one is more
+    readable and understandable, this second one i wrote much faster, maybe because i had a clear picture in my mind what i wanted to do
+
+    """
+    weather_data_forecast['City name'] = user.location
+    day_index = 0
+    checking_for_next_day = 0
+    with open("Weather and Pollution/all the json files/Forecast_weather_3h_step_5days.json", "r") as file:
+        data = json.load(file)
+        #get to the list that is bascially the whole file
+        for key, value in data.items():
+            if type(value) == list:
+                break
+
+        current_day = 0
+        index_of_nested_dicts_of_components = 0
+        while True:
+
+            date_object = datetime.datetime.utcfromtimestamp(value[index_of_nested_dicts_of_components]['dt'])
+            current_intervalIn_a_day = date_object.day
+
+            day_str = str(days_weather[day_index]) #just soo its compact, basically index of the day that i will be comparing
+
+            #if current_day is diffirent than i will add another sub dict to the appropriate keys
+            if current_day != current_intervalIn_a_day:
+                weather_data_forecast['description'][day_str] = []
+                weather_data_forecast['icon'][day_str] = []
+                weather_data_forecast["temp"][day_str] = []
+                weather_data_forecast["speed"][day_str] = []
+            #This will will change current day if it is diffirent, soo the above code triggers only when the `current_intervalIn_a_day`
+                #passes to the next day 
+            if current_day != current_intervalIn_a_day:
+                current_day = current_intervalIn_a_day
+
+            #Just appends the values based on index of nested dicts of components
+            weather_data_forecast['description'][day_str].append(value[index_of_nested_dicts_of_components]["weather"][0]['description'])
+            weather_data_forecast['icon'][day_str].append(value[index_of_nested_dicts_of_components]['weather'][0]['icon'])
+            weather_data_forecast["temp"][day_str].append(value[index_of_nested_dicts_of_components]['main']['temp'])
+            weather_data_forecast["speed"][day_str].append(value[index_of_nested_dicts_of_components]['wind']['speed'])
+            
+            print(value[index_of_nested_dicts_of_components]["weather"][0]['description'])
+            try:
+                checking_for_next_day = datetime.datetime.utcfromtimestamp(value[index_of_nested_dicts_of_components+1]['dt'])
+            except IndexError:
+                pass
+
+            if checking_for_next_day.day != current_intervalIn_a_day:
+                day_index +=1
+            if index_of_nested_dicts_of_components+1 >= len(data['list']):
+                print("breakuje u dole kod len(od kurac)")
+                break
+            index_of_nested_dicts_of_components += 1 
+        print(weather_data_forecast)
+
+#prodjem kroz fajl da nadjem sve razlicite dane, onda idem opet kroz fajl i sve dok je vreme u tom danu ono ce dodavati u listu, a kad 
+    #ne bude vise onda cemo dodati novu sub listu ?
+def get_days_from_forecast(ID):
+    """
+        before parsing through the json files to get the data, first i get the days
+        Logic: since pollution has commponents every 1hour, i neeed to check if its still the same day, if it is ill add a list to a 
+        chemical element which will contain dict with lists, every key will be a day, and values will be values for that day 
+    """
+
+    number_of_days = []
+    current_day = ''
+    if ID == 1:
+        folderFrom_which_to_scrape = 'Forecast Pollution'
+    elif ID == 2:
+        folderFrom_which_to_scrape = 'Forecast_weather_3h_step_5days'
+
+    with open(f"Weather and Pollution/all the json files/{folderFrom_which_to_scrape}.json", "r") as file:
+        data = json.load(file)
+        for key, value in data.items():
+            if type(value) == list:
+                break
+        for i in value:
+            for key, val in i.items():
+                if key == "dt":
+                    date_object = datetime.datetime.utcfromtimestamp(val)
+                    day = date_object.day
+                    if day != current_day:
+                        current_day = day
+                        number_of_days.append(current_day)
+    #print(number_of_days)
+    #print(type(number_of_days))
+    return number_of_days      
+
+        
 def window_Current_weather_creation(win_location):
     print(win_location)
-    """ Creating window for Current Weather and its layout """
+    """ Creating window for `Current Weather` and its layout """
 
     global BG_COLOR
     global TXT_COLOR
@@ -122,7 +282,7 @@ def window_Current_weather_creation(win_location):
 
 
 
-    ################ THESE ARE KEYS FOR ALL THE THINGS #################
+    ################ THESE ARE KEYS #################
     # top_col1 -> -data time-   -time-
     # top_col2 -> -city name-
     # top_layer -> -top layer-
@@ -144,9 +304,14 @@ def window_Current_weather_creation(win_location):
     middle_col1 = sg.Column([[sg.Image(image, size=(150,100),background_color=BG_COLOR, key="-image-")],
                              [sg.Text(f"Weather: {weather_data['description']}",background_color=BG_COLOR,text_color=TXT_COLOR,pad=(10,0), key="-weather description-")]],background_color=BG_COLOR)
     middle_col2 = sg.Column([[sg.Text(f'{weather_data["temp"]}{DEGREE_SIGN}C', font=('Haettenschweiler', 60),background_color=BG_COLOR, text_color=TXT_COLOR,pad=((0, 0), (10, 10)))]],background_color=BG_COLOR)
-    middle_col3 = sg.Column([metric_row('feels_like',DEGREE_SIGN,"Feels like:"), metric_row('temp_min',DEGREE_SIGN,"Area temp min:"), 
-                             metric_row('temp_max',DEGREE_SIGN,"Area temp max:"), metric_row('pressure',"Pa","Pressure:"), metric_row('humidity',"%", "Humidity:"), 
-                             metric_row('visibility',"m","Visibility:")],
+    middle_col3 = sg.Column([   metric_row_current_weather('feels_like',DEGREE_SIGN,"Feels like:"),
+                                metric_row_current_weather('temp_min',DEGREE_SIGN,"Area temp min:"), 
+                                metric_row_current_weather('temp_max',DEGREE_SIGN,"Area temp max:"),
+                                metric_row_current_weather('pressure',"Pa","Pressure:"),
+                                metric_row_current_weather('humidity',"%", "Humidity:"), 
+                                metric_row_current_weather('visibility',"m","Visibility:"),
+                                metric_row_current_weather('speed',"km/h","Wind speed:")
+                                ],
                         pad=((10, 0), (5, 10)), key='RtCOL')
     
     middle_layer = sg.Column([[middle_col1, middle_col2, middle_col3]],
@@ -171,6 +336,8 @@ def window_Current_weather_creation(win_location):
     return window
 
 def window_current_polution_creation(win_location):
+    """ Creating window layout for the current pollution """
+
     #BG_COLOR = sg.theme_text_color()
     #TXT_COLOR = sg.theme_background_color()
     global BG_COLOR
@@ -186,19 +353,36 @@ def window_current_polution_creation(win_location):
                                 background_color=BG_COLOR,expand_y=True, expand_x=True, key="-top layer-")
     
 
-    middle_col1 = [metric_pollution_bar('co'), metric_pollution_bar('no'), metric_pollution_bar("no2"), metric_pollution_bar("o3"), metric_pollution_bar("so2"),
-                              metric_pollution_bar("pm2_5"), metric_pollution_bar("pm10"), metric_pollution_bar("nh3")]    
-    
-    middle_col2 = [metric_pollution('CO','Carbon monoxide'), metric_pollution('NO','Nitrogen monoxide'), metric_pollution("NO2",'Nitrogen dioxide'),
-                            metric_pollution("O3",'Ozone'), metric_pollution("SO2",'Sulphur dioxide'),
-                            metric_pollution("PM2.5","Fine particulates 2.5 micrometers or smaller"),
-                            metric_pollution("PM10","Inhalable particles, with diameters that are generally 10 micrometers and smaller"), 
-                            metric_pollution("NH3","Ammonia")]                       
+    middle_col1 = [ metric_pollution_bar('co'),
+                    metric_pollution_bar('no'),
+                    metric_pollution_bar("no2"), 
+                    metric_pollution_bar("o3"), 
+                    metric_pollution_bar("so2"),
+                    metric_pollution_bar("pm2_5"), 
+                    metric_pollution_bar("pm10"), 
+                    metric_pollution_bar("nh3")
+                ]    
+
+    middle_col2 =  [    metric_pollution_chemical_symbol('CO','Carbon monoxide'),
+                        metric_pollution_chemical_symbol('NO','Nitrogen monoxide'),
+                        metric_pollution_chemical_symbol("NO2",'Nitrogen dioxide'),
+                        metric_pollution_chemical_symbol("O3",'Ozone'),
+                        metric_pollution_chemical_symbol("SO2",'Sulphur dioxide'),
+                        metric_pollution_chemical_symbol("PM2.5","Fine particulates 2.5 micrometers or smaller"),
+                        metric_pollution_chemical_symbol("PM10","Inhalable particles, with diameters that are generally 10 micrometers and smaller"), 
+                        metric_pollution_chemical_symbol("NH3","Ammonia")
+                    ]
+                       
     #middle_layer = sg.Frame([middle_col1],)
 
+    bottom_layer = [sg.Text(f"Last updated: {current_time}",font=('Arial', 10),text_color=TXT_COLOR,
+                                 background_color=BG_COLOR,pad=(0,0), key="-current pollution update time"),
+                    sg.Text("Update", font=('Arial', 10),text_color=TXT_COLOR, background_color=BG_COLOR, 
+                                pad=(0,0), justification='right', key="-current pollution update-")]
     layout = [[top_layer],
               [middle_col1], 
-              [middle_col2]]
+              [middle_col2],
+              [bottom_layer]]
 
     window = sg.Window(layout=layout,title="Weather",
                         element_justification='center',
@@ -212,42 +396,55 @@ def window_current_polution_creation(win_location):
                         background_color=BG_COLOR)
     return window
 
-def metric_row(data_in_weatherDic, symbol,text):
+def metric_row_current_weather(data_in_weatherDic, symbol,text):
     """ Return a pair of labels for each metric """
 
     return [sg.Text(text, font=('Arial', 10), pad=(2, 0), size=(12, 1)),
-            sg.Text(f"{weather_data[data_in_weatherDic]}{symbol}", font=('Arial', 10, 'bold'), pad=(0, 0), size=(6, 1), key=data_in_weatherDic)]
+            sg.Text(f"{weather_data[data_in_weatherDic]}{symbol}", font=('Arial', 10, 'bold'), pad=(0, 0), size=(7, 1), key=data_in_weatherDic)]
 #0~25    25~50   50~75   75~100  100~125 125~150 150~175 175~200 200~300 300~400 >400
 def color_decider(data):
+    """ Returns air string and color for the bars in `metrics_pollution_bar` """
+
     if pollution_data[data] < 25:
         color = '#008573'
+        air = "Good"
     elif 25 < pollution_data[data] < 50:
         color = "#6ca672"
+        air = "Good"
     elif 50 < pollution_data[data] < 75:
         color = "#27bf36"
+        air = "Moderate"
     elif 75 < pollution_data[data] < 100:
         color = "#ffe342"
+        air = "Moderate"
     elif 100 < pollution_data[data] < 125:
         color = "#ff9f46"
+        air = "Unhealthy for Sensitive Groups"
     elif 125 < pollution_data[data] < 150:
         color = "#f77c09"
+        air = "Unhealthy for Sensitive Groups"
     elif 150 < pollution_data[data] < 175:
         color = "#ed7272"
+        air = "Unhealthy"
     elif 175 < pollution_data[data] < 200:
         color = "#d92222"
+        air = "Unhealthy"
     elif 200 < pollution_data[data] < 300:
         color = "#a10e7c"
+        air = "Very Unhealthy"
     elif 300 < pollution_data[data] < 400:
         color = "#730858"
+        air = "Hazardous"
     elif pollution_data[data] > 400:
         color = "#000000"
-    return color
+        air = "Hazardous"
+    return color,air
 
 def metric_pollution_bar(data):
-    color = color_decider(data)
-    return sg.Canvas(background_color=f"{color}", size=(50,70), key=f"-{data}-",tooltip=f"{pollution_data[data]}")
+    color, air = color_decider(data)
+    return sg.Canvas(background_color=f"{color}", size=(50,70), key=f"-{data}-",tooltip=f"{air}: {pollution_data[data]}")
 
-def metric_pollution(data,text):
+def metric_pollution_chemical_symbol(data,text):
     global BG_COLOR
     global TXT_COLOR
     return sg.Text(data, background_color=BG_COLOR, text_color=TXT_COLOR, font=("Ariel", 10, "bold"),pad=(15, 0), tooltip=f"{text}", justification='left')
@@ -256,7 +453,7 @@ def metric_pollution(data,text):
 
 
 def main(user,win_location):
-    
+
     latitude, longitude = Network_communication.get_latitude_longitude(user)
     Network_communication.get_current_weather_data(latitude, longitude, user)
     Network_communication.get_current_pollution(latitude, longitude, user)
@@ -264,8 +461,12 @@ def main(user,win_location):
     Network_communication.get_forcast_air_polution(latitude, longitude, user)
     loading_current_weather(user)
     loading_pollution()
+    days_pollution = get_days_from_forecast(1)
+    days_weather = get_days_from_forecast(2)
 
-    
+    loading_forecast_pollution(days_pollution)
+    loading_forecast_weather(days_weather,user)
+
     window = window_Current_weather_creation(win_location)
     window_pollution = None
 #'Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place"
@@ -287,6 +488,7 @@ def main(user,win_location):
             windo_copy = window
             window = window_current_polution_creation(win_location)
             windo_copy.close()
+            
         if event == sg.TIMEOUT_KEY:
             current_time = datetime.datetime.now().strftime('%H:%M:%S')
             window["-TIME-"].update(current_time)

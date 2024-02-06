@@ -1,43 +1,44 @@
 {
   "coord": {
-    "lon": 20.5033,
-    "lat": 44.7998
+    "lon": 21.3265,
+    "lat": 43.5826
   },
   "weather": [
     {
-      "id": 800,
-      "main": "Clear",
-      "description": "clear sky",
-      "icon": "01n"
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 8.56,
-    "feels_like": 8.56,
-    "temp_min": 4.31,
-    "temp_max": 9.81,
-    "pressure": 1016,
-    "humidity": 64
+    "temp": 12.44,
+    "feels_like": 11.28,
+    "temp_min": 12.44,
+    "temp_max": 12.44,
+    "pressure": 1018,
+    "humidity": 59,
+    "sea_level": 1018,
+    "grnd_level": 998
   },
   "visibility": 10000,
   "wind": {
-    "speed": 1.03,
-    "deg": 0
+    "speed": 0.56,
+    "deg": 50,
+    "gust": 0.77
   },
   "clouds": {
-    "all": 0
+    "all": 78
   },
-  "dt": 1707177538,
+  "dt": 1707235749,
   "sys": {
-    "type": 2,
-    "id": 2037836,
     "country": "RS",
-    "sunrise": 1707198736,
-    "sunset": 1707234706
+    "sunrise": 1707198379,
+    "sunset": 1707234669
   },
   "timezone": 3600,
-  "id": 865964,
-  "name": "Palilula",
+  "id": 788975,
+  "name": "Kru\u0161evac",
   "cod": 200
 }

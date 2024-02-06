@@ -12,7 +12,7 @@ class User:
         """ Sets at what place on the planet you want to search for the weather and the other stuff """
 
         #place = input("Type where you are form: ")
-        place = "Zvezdara"  #Ž i slicna slova ne moze da cita... AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        place = "Krusevac"  #Ž i slicna slova ne moze da cita... AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         self.location = place
 
     def set_Alpha2_code_for_country(self,) -> type(str):

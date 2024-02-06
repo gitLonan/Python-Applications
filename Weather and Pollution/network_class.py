@@ -8,8 +8,11 @@ class Network_communication:
         with urllib.request.urlopen(url) as response:
             body = response.read().decode('utf-8')
             status_code = response.getcode()
-            if status_code == 200:
-                return body
+            try:
+                if status_code == 200:
+                    return body
+            except:
+                print("WROOOOOOOOOOOONG")
             
     def get_latitude_longitude(user)-> tuple[float, float]:
         """  Gets latitude and longitude based on user.place and user.alpha_2_code """
