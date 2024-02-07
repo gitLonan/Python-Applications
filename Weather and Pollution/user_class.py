@@ -18,12 +18,10 @@ class User:
     def set_Alpha2_code_for_country(self,) -> type(str):
         """ Sets alpha 2 code which you can find by typing ISO3166 in google and find your country """
 
-        print(f"Look online:  Type 'ISO3166' and look for {Style.RED}Alpha-2 code{Style.END_COLOR} of your country")
         while True:
-            #code = input("Type your Alpha-2 code: ")
             code = 'RS'
             if len(code) != 2:
-                continue
+                return "Wrong code"
             elif code.isnumeric():
                 continue
             break

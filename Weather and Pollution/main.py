@@ -193,7 +193,7 @@ def window_forcast_weather_creation(win_location,days_weather):
     def icon_provider(num):
                 #print("GLEDAJ", days_weather[num])
                 icon = Parsed.weather_data_forecast['icon'][f'{days_weather[num]}'][0]
-                print(icon)
+                #print(icon)
                 filename = f"Weather and Pollution/icons/{icon}.png"
                 return sg.Image(filename, size=(70,70),background_color=BG_COLOR, pad=(16,0))
         
@@ -252,11 +252,11 @@ def window_forcast_weather_creation(win_location,days_weather):
                                 pad=(0,0),enable_events=True,  key="-forecast weather update-")]
     def max_temp(num):
          data = Parsed.weather_data_forecast["temp"][f'{days_weather[num]}']
-         print(max(data))
+         #print(max(data))
          return max(data)
     def min_temp(num):
          data = Parsed.weather_data_forecast["temp"][f'{days_weather[num]}']
-         print(min(data))
+         #print(min(data))
          return min(data)
     
     max_temp_layer = sg.Column([[metric_max_temp(max_temp(0)),metric_max_temp(max_temp(1)),metric_max_temp(max_temp(2)),metric_max_temp(max_temp(3)),metric_max_temp(max_temp(4)),metric_max_temp(max_temp(5))],
@@ -372,7 +372,6 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     
     chemical_symbols = []
     for key,value in enumerate(Parsed.pollution_data_forecast.items()):
-          print(value[0])
           chemical_symbols.append(value[0])
     chemical_symbols.remove(chemical_symbols[-1])
     
@@ -387,7 +386,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
         average_pollution.append(average)
         day_index += 1
         #print(day_index, len(days_pollution))
-        print("SYMBOL",chemical_symbols[symbol_index])
+        #print("SYMBOL",chemical_symbols[symbol_index])
         if day_index == len(days_pollution):
             day_index = 0
             symbol_index += 1
@@ -398,7 +397,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     
     pollution_layer = []
     pause_layer = []
-    print(days_average_pollution)
+    #print(days_average_pollution)
     symbol_layer = []
     for i in chemical_symbols:
          symbol_layer.append(metric_symbol(i))
@@ -417,7 +416,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
         if index_in_list > 6:
              index_in_list = 6
         metric = days_average_pollution[index_list][index_in_list]
-        print(metric)
+        #print(metric)
         chemical_layer = [metric_pollution_bar(metric,chemical_symbols[index_list])]
         pause_layer.append(chemical_layer)
         index_list += 1
@@ -460,11 +459,24 @@ def window_change_user_creation(win_location, user):
                                       expand_x=True,background_color=BG_COLOR)
     
     middle_layer = [sg.Text("Type the name of the place: ",background_color=BG_COLOR, font=('Arial', 10), text_color=TXT_COLOR, tooltip="Can be region, city, small city, small village"),
-                sg.Input("...",background_color=BG_COLOR,font=('Arial', 10),text_color=TXT_COLOR, key="-place input-")
+                sg.Input("",background_color=BG_COLOR,font=('Arial', 10),text_color=TXT_COLOR, key="-place input-")
                 ]
+    middle_layer2 = [[sg.Text("Type Alpha 2 code of your country: ",background_color=BG_COLOR, font=('Arial', 10), text_color=TXT_COLOR), 
+                   sg.Input("", background_color=BG_COLOR, font=('Arial', 10), text_color=TXT_COLOR, key="-alpha 2 code-"),],
+                    [sg.Button("Submit", font=('Arial', 10), pad=(0,0), enable_events=True, key='-submit-')]]
+    
+    alpha2_list = []
+    with open("Weather and Pollution/all the json files/Alpha_2_country_codes.json", "r") as file:
+        data = json.load(file)
+        json_string = json.dumps(data, indent=2)
+        bottom_layer = [sg.Multiline(f"Alpha 2 codes and their countries, find your own and type it above\n{json_string}",
+                                      expand_x=True, expand_y=True, size=(30,15),autoscroll=True ,k="-MLINES-"),
+                        ]
 
     layout = [  [top_layer],
                 [middle_layer],
+                [middle_layer2],
+                [bottom_layer]
      ]
 
     window = sg.Window(layout=layout,title="Weather",
@@ -477,7 +489,7 @@ def window_change_user_creation(win_location, user):
                         finalize=True,
                         location=win_location,
                         background_color=BG_COLOR)
-    return window
+    return window, data
 
 
 def color_decider_forecast(data):
@@ -588,7 +600,7 @@ def main(user,win_location):
     window_pollution = None
 #'Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place"
     while True:
-        event, values = window.read(timeout=200)
+        event, value = window.read(timeout=200)
         if event == "Exit":
             sg.user_settings_set_entry('-win location-', window.current_location())
             break
@@ -619,9 +631,17 @@ def main(user,win_location):
         elif event == "Change Place":
             sg.user_settings_set_entry('-win location-', window.current_location())
             windo_copy = window
-            window = window_change_user_creation(win_location, user)
+            window, alpha2_json = window_change_user_creation(win_location, user)
             windo_copy.close()
+        
 
+        # if event == '-submit-':
+        #     print(value["-alpha 2 code-"], value["-place input-"])
+        #     if value["-alpha 2 code-"] not in alpha2_json:
+        #          pass
+        #     else:
+        #         User.set_place_name(value["-place input-"])
+        #         User.set_Alpha2_code_for_country(value["-place input-"])
 
 
         if event == "-forecast weather update-":
@@ -645,7 +665,7 @@ def main(user,win_location):
             Network_communication.get_current_pollution(latitude, longitude, user)
             Parsed.loading_pollution()
             windo_copy = window
-            window = window_current_polution_creation(win_location, days_pollution)
+            window = window_current_polution_creation(win_location)
             windo_copy.close()
 
         elif event == "-current weather update-":

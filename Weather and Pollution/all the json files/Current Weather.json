@@ -13,25 +13,25 @@
   ],
   "base": "stations",
   "main": {
-    "temp": 4.7,
-    "feels_like": 3.31,
-    "temp_min": 4.7,
-    "temp_max": 4.7,
+    "temp": 3.94,
+    "feels_like": 2.03,
+    "temp_min": 3.94,
+    "temp_max": 3.94,
     "pressure": 1013,
-    "humidity": 80,
+    "humidity": 85,
     "sea_level": 1013,
-    "grnd_level": 901
+    "grnd_level": 900
   },
   "visibility": 10000,
   "wind": {
-    "speed": 1.74,
-    "deg": 213,
-    "gust": 1.61
+    "speed": 2.1,
+    "deg": 211,
+    "gust": 1.82
   },
   "clouds": {
-    "all": 91
+    "all": 99
   },
-  "dt": 1707329924,
+  "dt": 1707334975,
   "sys": {
     "country": "RS",
     "sunrise": 1707285114,
