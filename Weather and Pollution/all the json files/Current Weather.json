@@ -1,44 +1,44 @@
 {
   "coord": {
-    "lon": 21.3265,
-    "lat": 43.5826
+    "lon": 19.6998,
+    "lat": 43.7265
   },
   "weather": [
     {
-      "id": 803,
+      "id": 804,
       "main": "Clouds",
-      "description": "broken clouds",
+      "description": "overcast clouds",
       "icon": "04n"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 12.44,
-    "feels_like": 11.28,
-    "temp_min": 12.44,
-    "temp_max": 12.44,
-    "pressure": 1018,
-    "humidity": 59,
-    "sea_level": 1018,
-    "grnd_level": 998
+    "temp": 7.04,
+    "feels_like": 5.49,
+    "temp_min": 7.04,
+    "temp_max": 7.04,
+    "pressure": 1012,
+    "humidity": 68,
+    "sea_level": 1012,
+    "grnd_level": 901
   },
   "visibility": 10000,
   "wind": {
-    "speed": 0.56,
-    "deg": 50,
-    "gust": 0.77
+    "speed": 2.29,
+    "deg": 220,
+    "gust": 2.16
   },
   "clouds": {
-    "all": 78
+    "all": 88
   },
-  "dt": 1707235749,
+  "dt": 1707321902,
   "sys": {
     "country": "RS",
-    "sunrise": 1707198379,
-    "sunset": 1707234669
+    "sunrise": 1707285114,
+    "sunset": 1707321524
   },
   "timezone": 3600,
-  "id": 788975,
-  "name": "Kru\u0161evac",
+  "id": 3302765,
+  "name": "Zlatibor",
   "cod": 200
 }

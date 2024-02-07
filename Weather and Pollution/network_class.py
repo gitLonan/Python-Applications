@@ -29,6 +29,7 @@ class Network_communication:
                     return (latitude, longitude)
         else:
             print(f"{Style.RED}Wrong City name or wrong country name, pls look ISO 3166 for guidence on country codes{Style.END_COLOR}")
+        return
             
     def get_current_weather_data(latitude: float, longitude: float, user):
         """ Current weather for your location sends data to `all the json files` """
@@ -40,6 +41,7 @@ class Network_communication:
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
             with open("Weather and Pollution/all the json files/Current Weather.json", "w") as f:
                 json.dump(result, f, indent=2)
+        return
 
     def get_forecast_weatherFor_5days_data(latitude: float, longitude: float, user):
         """ Weather for the next 5 days(including today) sends to `all the json files` """
@@ -51,6 +53,7 @@ class Network_communication:
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
             with open("Weather and Pollution/all the json files/Forecast_weather_3h_step_5days.json", "w") as f:
                 json.dump(result, f, indent=2)
+        return
 
     def get_current_pollution(latitude: float, longitude: float, user):
         """ Pollution for the next 4days, all the negative particals -> `all the json files` """
@@ -62,6 +65,7 @@ class Network_communication:
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
             with open("Weather and Pollution/all the json files/Current Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
+        return
 
     def get_forcast_air_polution(latitude: float, longitude: float, user):
 
@@ -72,6 +76,8 @@ class Network_communication:
             #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
             with open("Weather and Pollution/all the json files/Forecast Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
+
+        return
 
     def request_weather_icon(icon_id=None):
         filename = 'temp_image.png'
