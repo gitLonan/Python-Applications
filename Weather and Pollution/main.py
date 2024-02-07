@@ -97,14 +97,15 @@ def window_Current_weather_creation(win_location):
           [bottom_layer]
           ]
     window = sg.Window(layout=layout,title="Weather",
-                        element_justification='center',
+                        element_justification='left',
                         margins=(0, 0),
                         grab_anywhere=True,
                         alpha_channel=0.8,
                         right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place", 'Exit',]],
                         no_titlebar=True,
                         finalize=True,
-                        location=win_location)
+                        location=win_location,
+                        background_color=BG_COLOR)
     
     return window
 
@@ -154,7 +155,7 @@ def window_current_polution_creation(win_location):
                         metric_pollution_chemical_symbol("PM10","Inhalable particles, with diameters that are generally 10 micrometers and smaller"), 
                         metric_pollution_chemical_symbol("NH3","Ammonia")
                     ]
-                       
+    
     #middle_layer = sg.Frame([middle_col1],)
 
     bottom_layer = [sg.Text(f"Last updated: {current_time}",font=('Arial', 10),text_color=TXT_COLOR,
@@ -296,10 +297,28 @@ def window_forcast_pollution_creation(win_location, days_pollution):
                 date = _.strftime('%d/%m')
                 return sg.Text(date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14),pad=(25, 0))
     
-    def metric_pollution_bar(data):
+    def metric_pollution_bar(data, symbol):
         color, air = color_decider_forecast(data)
-        return sg.Canvas(background_color=f"{color}", size=(45,40), key=f"-{data}-",tooltip=f"{air}: {data}")
+        if symbol == "co":
+             symbol_text = 'CO-Carbon monoxide'
+        elif symbol == "no":
+             symbol_text = 'NO-Nitrogen monoxide'
+        elif symbol == "no2":
+             symbol_text = "NO2-Nitrogen dioxide"
+        elif symbol == "o3":
+             symbol_text = "O3-Ozone"
+        elif symbol == "so2":
+             symbol_text = "SO2-Sulphur dioxide"
+        elif symbol == "pm2_5":
+             symbol_text = "PM2.5-Fine particulates 2.5 micrometers or smaller"
+        elif symbol == "pm10":
+             symbol_text = "PM10-Inhalable particles, with diameters that are generally 10 micrometers and smaller"
+        elif symbol == "nh3":
+             symbol_text = "NH3-Ammonia"
+        return sg.Canvas(background_color=f"{color}", size=(45,40), key=f"-{data}-",tooltip=f"{air}: {data} {symbol_text}")
                                                         #30,30 je prolazno
+    def metric_symbol(num):
+         return [sg.Text(num, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14),pad=((0, 10), (0,0)) )]
     global BG_COLOR
     global TXT_COLOR
     
@@ -360,7 +379,9 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     while True:
         values = Parsed.pollution_data_forecast[chemical_symbols[symbol_index]][f"{days_pollution[day_index]}"]
         list_values = [i for i in values if i != 0]
-        #print(list_values) 
+        #print(list_values) #ZeroDivisionError
+        if sum(list_values) == 0:
+            list_values = [0.01]
         average = round(sum(list_values) / len(list_values), 2)
         #print(average)
         average_pollution.append(average)
@@ -378,7 +399,10 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     pollution_layer = []
     pause_layer = []
     print(days_average_pollution)
-
+    symbol_layer = []
+    for i in chemical_symbols:
+         symbol_layer.append(metric_symbol(i))
+    
     
     """
         Logic: First in one passing of the list `days_average pollution` ill get first element from each of the 8 nested lists and create 'squares' in 
@@ -394,7 +418,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
              index_in_list = 6
         metric = days_average_pollution[index_list][index_in_list]
         print(metric)
-        chemical_layer = [metric_pollution_bar(metric)]
+        chemical_layer = [metric_pollution_bar(metric,chemical_symbols[index_list])]
         pause_layer.append(chemical_layer)
         index_list += 1
         if index_list == 8:
@@ -404,6 +428,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
             pause_layer = []
         if metric == days_average_pollution[-1][-1]:
             break
+
 
     layout = [  [top_layer],
                 [days_layer],
@@ -424,6 +449,36 @@ def window_forcast_pollution_creation(win_location, days_pollution):
                         )   #ovDE TREBA background_color=BG_COLOR
     
     return window
+
+def window_change_user_creation(win_location, user):
+    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+    current_date = datetime.datetime.now().strftime('%d-%m-%Y')
+
+    top_layer = sg.Column([[sg.Text(text=current_date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14),key="-date time-")],
+                          [sg.Text(text=current_time, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14),
+                                    pad=(10,0), key="-TIME-")]],element_justification='left',pad=(10, 5),
+                                      expand_x=True,background_color=BG_COLOR)
+    
+    middle_layer = [sg.Text("Type the name of the place: ",background_color=BG_COLOR, font=('Arial', 10), text_color=TXT_COLOR, tooltip="Can be region, city, small city, small village"),
+                sg.Input("...",background_color=BG_COLOR,font=('Arial', 10),text_color=TXT_COLOR, key="-place input-")
+                ]
+
+    layout = [  [top_layer],
+                [middle_layer],
+     ]
+
+    window = sg.Window(layout=layout,title="Weather",
+                        element_justification='center',
+                        margins=(0, 0),
+                        grab_anywhere=True,
+                        alpha_channel=0.8,
+                        right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place", 'Exit',]],
+                        no_titlebar=True,
+                        finalize=True,
+                        location=win_location,
+                        background_color=BG_COLOR)
+    return window
+
 
 def color_decider_forecast(data):
     """ Returns air string and color for the bars in `metrics_pollution_bar` """
@@ -538,10 +593,6 @@ def main(user,win_location):
             sg.user_settings_set_entry('-win location-', window.current_location())
             break
 
-        elif event == "Change Place":
-            print("Ulazim ?")
-            pass
-
         elif event == "Current Weather":
             sg.user_settings_set_entry('-win location-', window.current_location())
             windo_copy = window
@@ -565,7 +616,11 @@ def main(user,win_location):
             windo_copy = window
             window = window_forcast_pollution_creation(win_location, days_pollution)
             windo_copy.close()
-
+        elif event == "Change Place":
+            sg.user_settings_set_entry('-win location-', window.current_location())
+            windo_copy = window
+            window = window_change_user_creation(win_location, user)
+            windo_copy.close()
 
 
 
