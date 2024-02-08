@@ -27,7 +27,7 @@ class Network_communication:
             sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
 
         result = json.loads(response)
-        #print(json.dumps(result, indent=2))                    #for finding bugs in json.load   
+        #print(json.dumps(result, indent=2))                    
         for i in range(len(result)):
             if result[i].get('country') == user.alpha_2_code:
                 latitude = result[i].get("lat")
@@ -42,7 +42,7 @@ class Network_communication:
         response = Network_communication.url_access(url)
         if response:
             result = json.loads(response)
-            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
+            #print(json.dumps(result, indent=2))                    
             with open("Weather and Pollution/all the json files/Current Weather.json", "w") as f:
                 json.dump(result, f, indent=2)
         return
@@ -54,7 +54,7 @@ class Network_communication:
         response = Network_communication.url_access(url)
         if response:
             result = json.loads(response)
-            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
+            #print(json.dumps(result, indent=2))                    
             with open("Weather and Pollution/all the json files/Forecast_weather_3h_step_5days.json", "w") as f:
                 json.dump(result, f, indent=2)
         return
@@ -66,7 +66,7 @@ class Network_communication:
         response = Network_communication.url_access(url)
         if response:
             result = json.loads(response)
-            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
+            #print(json.dumps(result, indent=2))                    
             with open("Weather and Pollution/all the json files/Current Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
         return
@@ -77,7 +77,7 @@ class Network_communication:
         response = Network_communication.url_access(url)
         if response:
             result = json.loads(response)
-            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load  
+            #print(json.dumps(result, indent=2))                    
             with open("Weather and Pollution/all the json files/Forecast Pollution.json", "w") as f:
                 json.dump(result, f, indent=2)
 

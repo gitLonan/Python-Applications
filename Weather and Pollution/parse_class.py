@@ -60,8 +60,6 @@ class Parsed:
         "dt": {}
     }
 
-    #prodjem kroz fajl da nadjem sve razlicite dane, onda idem opet kroz fajl i sve dok je vreme u tom danu ono ce dodavati u listu, a kad 
-    #ne bude vise onda cemo dodati novu sub listu ?
     def get_days_for_forecast(ID):
         """
             before parsing through the json files to get the data, first i get the days
@@ -242,7 +240,7 @@ class Parsed:
                 if checking_for_next_day.day != current_intervalIn_a_day:
                     day_index +=1
                 if index_of_nested_dicts_of_components+1 >= len(data['list']):
-                    #print("breakuje u dole kod len(od kurac)")
+                    
                     break
                 index_of_nested_dicts_of_components += 1 
             #print(Parsed.weather_data_forecast)

@@ -40,12 +40,7 @@ def window_Current_weather_creation(win_location):
 
     global BG_COLOR
     global TXT_COLOR
-    
-    #BG_COLOR = sg.theme_text_color()
-    #TXT_COLOR = sg.theme_background_color()
     DEGREE_SIGN = u"\N{DEGREE SIGN}"
-
-    #### Date object
     date_object = datetime.datetime.utcfromtimestamp(Parsed.weather_data['dt'])
     year = date_object.year
     month = date_object.month
@@ -54,19 +49,10 @@ def window_Current_weather_creation(win_location):
 
     #Getting img from the weeb
     image = Network_communication.request_weather_icon(Parsed.weather_data["icon"])
-
     #Getting sec,min,hour from the datetime module
     current_time = datetime.datetime.now().strftime('%H:%M:%S')
-   
-    ################ THESE ARE KEYS #################
-    # top_col1 -> -data time-   -time-
-    # top_col2 -> -city name-
-    # top_layer -> -top layer-
 
-    # middle_col1 -> -image-  -weather description-
-    # middle_col2 ->    
-    # middle_col3 -> in func 'metric_row' -> -data_in_weatherDic- (name of the given metric form weather_data)
-    # middle_layer -> -middle layer-
+
     top_col1 = sg.Column([[sg.Text(text=current_date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), key="-date time-")],
                           [sg.Text(text=current_time, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14), pad=(10,0), key="-TIME-")]],element_justification='left',pad=(10, 5), expand_x=True,background_color=BG_COLOR)
     top_col2 = sg.Column([[sg.Text(Parsed.weather_data['City name'], background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 25), justification="left", key='-city name-')]],pad=(10, 5), expand_x=True,background_color=BG_COLOR)
@@ -124,8 +110,6 @@ def window_current_polution_creation(win_location):
         global TXT_COLOR
         return sg.Text(data, background_color=BG_COLOR, text_color=TXT_COLOR, font=("Ariel", 10, "bold"),pad=(16, 0), tooltip=f"{text}", justification='left')
 
-    #BG_COLOR = sg.theme_text_color()
-    #TXT_COLOR = sg.theme_background_color()
     global BG_COLOR
     global TXT_COLOR
     current_time = datetime.datetime.now().strftime('%H:%M:%S')
@@ -158,8 +142,6 @@ def window_current_polution_creation(win_location):
                         metric_pollution_chemical_symbol("PM10","Inhalable particles, with diameters that are generally 10 micrometers and smaller"), 
                         metric_pollution_chemical_symbol("NH3","Ammonia")
                     ]
-    
-    #middle_layer = sg.Frame([middle_col1],)
 
     bottom_layer = [sg.Text(f"Last updated: {current_time}",font=('Arial', 10),text_color=TXT_COLOR,
                                  background_color=BG_COLOR,pad=(0,0), key="-current pollution update time"),
@@ -194,9 +176,7 @@ def window_forcast_weather_creation(win_location,days_weather):
                 return sg.Text(date, background_color=BG_COLOR, text_color=TXT_COLOR, font=('Arial', 14),pad=(25, 0))
     
     def icon_provider(num):
-                #print("GLEDAJ", days_weather[num])
                 icon = Parsed.weather_data_forecast['icon'][f'{days_weather[num]}'][0]
-                #print(icon)
                 filename = f"Weather and Pollution/icons/{icon}.png"
                 return sg.Image(filename, size=(70,70),background_color=BG_COLOR, pad=(16,0))
         
@@ -231,16 +211,14 @@ def window_forcast_weather_creation(win_location,days_weather):
                                 background_color=BG_COLOR,expand_y=True, expand_x=True, key="-top layer-")
     days_layer = []
     for i in range(len(days_weather)):
-         #print(i)
          days_layer.append(metrics_days_layer(i))
+
     dates_layers = []
     for i in range(len(days_weather)):
-         #print(i)
          dates_layers.append(metrics_date_layer(i))
   
     icon_layer = []
     for i in range(len(days_weather)):
-         #print(i)
          icon_layer.append(icon_provider(i))
   
     weather_type_layer = []
@@ -287,7 +265,7 @@ def window_forcast_weather_creation(win_location,days_weather):
                         finalize=True,
                         location=win_location,
                         background_color=BG_COLOR
-                        )   #ovDE TREBA background_color=BG_COLOR
+                        )   
     
     return window
 
@@ -351,17 +329,11 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     dates_layers = []
 
     for i in range(len(days_pollution)):
-         #print(i)
          days_layer.append(metrics_days_layer(i))
     
     for i in range(len(days_pollution)):
-         #print(i)
          dates_layers.append(metrics_date_layer(i))
 
-    
-    
-
-    ######here im using symbol index and day index to parse the nested dics in pollutioon_data_forecast
     """
         Logic: in for loop ill just get the chemical symbols for `Parsed.pollution_data_forecast` because they are keys for the nested dict in 
                 `pollution_data_forest`
@@ -384,15 +356,12 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     while True:
         values = Parsed.pollution_data_forecast[chemical_symbols[symbol_index]][f"{days_pollution[day_index]}"]
         list_values = [i for i in values if i != 0]
-        #print(list_values) #ZeroDivisionError
+        #print(list_values)
         if sum(list_values) == 0:
             list_values = [0.01]
         average = round(sum(list_values) / len(list_values), 2)
-        #print(average)
         average_pollution.append(average)
         day_index += 1
-        #print(day_index, len(days_pollution))
-        #print("SYMBOL",chemical_symbols[symbol_index])
         if day_index == len(days_pollution):
             day_index = 0
             symbol_index += 1
@@ -403,7 +372,6 @@ def window_forcast_pollution_creation(win_location, days_pollution):
     
     pollution_layer = []
     pause_layer = []
-    #print(days_average_pollution)
     symbol_layer = []
     for i in chemical_symbols:
          symbol_layer.append(metric_symbol(i))
@@ -451,7 +419,7 @@ def window_forcast_pollution_creation(win_location, days_pollution):
                         finalize=True,
                         location=win_location,
                         background_color=BG_COLOR
-                        )   #ovDE TREBA background_color=BG_COLOR
+                        )  
     
     return window
 
@@ -573,17 +541,7 @@ def color_decider(data):
         color = "#000000"
         air = "Hazardous"
     return color,air
-
-
-# def proba():
-#         lista = ["01d","02d","03d","04d","09d","10d","11d","13d","50d"]
-#         for i in lista:
-#             url = f"https://openweathermap.org/img/wn/{i}@2x.png"
-#             with urllib.request.urlopen(url) as response:
-#                 image_bytes = BytesIO(response.read()) #converting img to a byte like object
-#                 image = Image.open(image_bytes)
-#                 image.save(fp=f"Weather and Pollution/icons/{i}.png")                            
-
+                           
 def main(user,win_location):
     while True:
         checking_for_login()
@@ -591,7 +549,7 @@ def main(user,win_location):
             latitude, longitude = Network_communication.get_latitude_longitude(user)
             break
         except TypeError:
-            sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
+            sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in the Country?')
             
             
 
@@ -608,11 +566,8 @@ def main(user,win_location):
     Parsed.loading_forecast_pollution(days_pollution)
     Parsed.loading_forecast_weather(days_weather,user)
 
-    #print(days_weather)
     window = window_Current_weather_creation(win_location)
-    
-    window_pollution = None
-#'Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place"
+
     while True:
         event, value = window.read(timeout=200)
         win_location = window.current_location()
@@ -728,10 +683,7 @@ def checking_for_login():
 if __name__ == "__main__":
     user = User()
     user.set_API_key()
-    win_location = sg.user_settings_get_entry('-win location-', (None, None))
-    #if not isinstance(win_location, tuple) or len(win_location) != 2 or not all(isinstance(val, (int, float)) for val in win_location):
-        # Set a default location if the retrieved value is not valid
-        #win_location = (None, None)           
+    win_location = sg.user_settings_get_entry('-win location-', (None, None))         
     print(win_location)
     main(user,win_location)
 
