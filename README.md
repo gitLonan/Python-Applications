@@ -41,11 +41,11 @@ Shows temperature for the next few days and it's highest and lowest projection
 ![Alt Text](/Weather%20and%20Pollution/Screenshots/forecast_weather.PNG)  
 
 4. **Forecast Pollution Levels**  
-Shows average levels of pollution for the said pollutants of the given day, same as before, by hovering with your mouse you get to see number and what element it is  
+Shows average levels of pollution for the said pollutants for the given day, same as before, by hovering with your mouse you get to see number and what element it is  
 ![Alt Text](/Weather%20and%20Pollution/Screenshots/forecast_pollution.PNG)  
   
 5. **Change Location**  
-On the picture you can see you have two input fields to fill, first one is *location*, it can be city, region, small city, any place you want and if the OpenWeather database doesn't have anything with said name it will create a **pop up** and tell you(check if you typed the name correctly, just google it). Second one is *alpha 2 code*, every country is represented by a code, and it is a string of lenght two, just scroll and find your country, they are orderd alphabeticaly.  
+On the picture you can see you have two input fields to fill, first one is *location*, it can be city, region, small city, any place you want and if the OpenWeather database doesn't have anything with said name it will create a **pop up** and tell you.(check if you typed the name correctly, just google it). Second one is *alpha 2 code*, every country is represented by a code, and it is a string of lenght two, just scroll and find your country, they are orderd alphabeticaly.  
 ![Alt Text](/Weather%20and%20Pollution/Screenshots/change_location.PNG)  
   
 6. **How to change between said features**  
@@ -54,10 +54,10 @@ Just right click, since PySimpleGui has it's own limits, for some parts of the s
 
 
 ## Getting Started
--Before you get all hyped up about this app first you gotta **register** at [OpenWeather](https://openweathermap.org/). By doing soo you will get your own **API key** which you'll be able to make all the needed API calles from the server.  
--Then you will need to copy the said key from their site and paste it in the `user_class.py` in the **variable: `key`**
+-Before you get all hyped up about this app first you gotta **register** at [OpenWeather](https://openweathermap.org/). By doing soo you will get your own **API key** which you'll be able to make all the needed API calls from the server.  
+-Then you will need to copy the said key from their site and paste it in `user_class.py` in variable: **`key`**
 ![Alt Text](/Weather%20and%20Pollution/Screenshots/for_API_key.PNG)  
-  
+
 1. Clone repository: https://github.com/MujoHarac/Python-Applications.git
 
 2. Colors by an increase of pollution from left to right  
