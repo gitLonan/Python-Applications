@@ -3,6 +3,13 @@ from style_class import Style
 
 
 class User:
+    """
+        Sets User location, API key and alpha 2 code
+        
+    """
+
+
+
     """ Alpha-2 code is a standard, look online ISO3166"""
     def __init__(self,):
         self.location = ''

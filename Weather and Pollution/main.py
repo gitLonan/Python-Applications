@@ -20,15 +20,10 @@ TXT_COLOR = sg.theme_background_color()
     #Yellow color - #ecc836
     #Orange color - #c96526
     #Purple color - #cf3baa
-#                               0~25    25~50   50~75   75~100  100~125 125~150 150~175 175~200 200~300 300~400 >400
+# 0~25    25~50   50~75   75~100  100~125 125~150 150~175 175~200 200~300 300~400 >400
 
 
 
-
-
-     
-
-        
 def window_Current_weather_creation(win_location):
     """ Creating window for `Current Weather` and its layout """
 

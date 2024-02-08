@@ -4,7 +4,11 @@ from io import BytesIO
 from PIL import Image, ImageTk
 import PySimpleGUI as sg
 class Network_communication:
-
+    """
+        All the communication with the server at OpenWeather is done in this class, all the get_...func will dump the information in json format
+        to the `all the json fiels` , except `get_lattitude_longitude` that one returns tuple(x,y)
+         
+    """
     def url_access(url):
         with urllib.request.urlopen(url) as response:
             body = response.read().decode('utf-8')

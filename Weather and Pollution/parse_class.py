@@ -2,7 +2,15 @@ import json, datetime
 from user_class import User
 import PySimpleGUI as sg
 class Parsed:
+    """
+        All the stored data in `all the json files` need to be parsed, since the json files for Current Weather and Current Pollution are way smaller
+        in size they need only one variable soo they are stored in `weather_data` and `pollution_data`
 
+        For the forecast versions, since the measurements for weather are taken every 3h. I need to single out when it goes from one day to another,
+        and store that as well, thats why i have `weather_data_forecast` and `pollution_data_forecast` i need to create nested dic, where keys are days
+        and values are measurements for the respected days 
+    
+    """
     weather_data = {
         "City name": "No information",
         "speed": None, #wind_speed
