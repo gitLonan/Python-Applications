@@ -84,7 +84,7 @@ class Network_communication:
         return
 
     def request_weather_icon(icon_id=None):
-        filename = 'temp_image.png'
+        filename = 'Weather and Pollution/temp_image.png'
         url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
         with urllib.request.urlopen(url) as response:
             image_bytes = BytesIO(response.read()) #converting img to a byte like object

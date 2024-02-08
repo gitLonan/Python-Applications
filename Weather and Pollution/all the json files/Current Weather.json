@@ -1,43 +1,53 @@
 {
   "coord": {
-    "lon": 20.5033,
-    "lat": 44.7998
+    "lon": -9.1366,
+    "lat": 38.7078
   },
   "weather": [
     {
-      "id": 800,
-      "main": "Clear",
-      "description": "clear sky",
-      "icon": "01n"
+      "id": 501,
+      "main": "Rain",
+      "description": "moderate rain",
+      "icon": "10d"
+    },
+    {
+      "id": 701,
+      "main": "Mist",
+      "description": "mist",
+      "icon": "50d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 15.34,
-    "feels_like": 14.16,
-    "temp_min": 14.81,
-    "temp_max": 16.43,
+    "temp": 14.76,
+    "feels_like": 14.77,
+    "temp_min": 13.87,
+    "temp_max": 15.53,
     "pressure": 1003,
-    "humidity": 47
+    "humidity": 95
   },
-  "visibility": 10000,
+  "visibility": 2000,
   "wind": {
-    "speed": 1.54,
-    "deg": 270
+    "speed": 11.32,
+    "deg": 210,
+    "gust": 18.52
+  },
+  "rain": {
+    "1h": 1.33
   },
   "clouds": {
-    "all": 0
+    "all": 75
   },
-  "dt": 1707408037,
+  "dt": 1707407990,
   "sys": {
-    "type": 2,
-    "id": 2037836,
-    "country": "RS",
-    "sunrise": 1707371382,
-    "sunset": 1707407679
+    "type": 1,
+    "id": 6901,
+    "country": "PT",
+    "sunrise": 1707377783,
+    "sunset": 1707415505
   },
-  "timezone": 3600,
-  "id": 865964,
-  "name": "Palilula",
+  "timezone": 0,
+  "id": 6930126,
+  "name": "Chiado",
   "cod": 200
 }

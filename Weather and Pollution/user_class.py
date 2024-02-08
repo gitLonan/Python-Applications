@@ -1,6 +1,7 @@
 import time
 from style_class import Style
 
+
 class User:
     """ Alpha-2 code is a standard, look online ISO3166"""
     def __init__(self,):
