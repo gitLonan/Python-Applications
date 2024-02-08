@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 import json, urllib.request, time, sys, datetime
+import PySimpleGUI as sg
+from io import BytesIO
+from PIL import Image, ImageTk
+
+
 from style_class import Style
 from user_class import User
 from network_class import Network_communication
 from parse_class import Parsed
-import PySimpleGUI as sg
-from io import BytesIO
-from PIL import Image, ImageTk
+
 
 sg.theme('LightBlue6')
 BG_COLOR = sg.theme_text_color()
@@ -258,11 +261,14 @@ def window_forcast_weather_creation(win_location,days_weather):
          data = Parsed.weather_data_forecast["temp"][f'{days_weather[num]}']
          #print(min(data))
          return min(data)
-    
-    max_temp_layer = sg.Column([[metric_max_temp(max_temp(0)),metric_max_temp(max_temp(1)),metric_max_temp(max_temp(2)),metric_max_temp(max_temp(3)),metric_max_temp(max_temp(4)),metric_max_temp(max_temp(5))],
+    if len(days_weather) == 6:
+        max_temp_layer = sg.Column([[metric_max_temp(max_temp(0)),metric_max_temp(max_temp(1)),metric_max_temp(max_temp(2)),metric_max_temp(max_temp(3)),metric_max_temp(max_temp(4)),metric_max_temp(max_temp(5))],
                                 [metric_min_temp(min_temp(0)),metric_min_temp(min_temp(1)),metric_min_temp(min_temp(2)),metric_min_temp(min_temp(3)),metric_min_temp(min_temp(4)),metric_min_temp(min_temp(5))]],
                                   background_color=BG_COLOR)
-
+    elif len(days_weather) == 5:
+        max_temp_layer = sg.Column([[metric_max_temp(max_temp(0)),metric_max_temp(max_temp(1)),metric_max_temp(max_temp(2)),metric_max_temp(max_temp(3)),metric_max_temp(max_temp(4))],
+                                [metric_min_temp(min_temp(0)),metric_min_temp(min_temp(1)),metric_min_temp(min_temp(2)),metric_min_temp(min_temp(3)),metric_min_temp(min_temp(4))]],
+                                  background_color=BG_COLOR)
     layout = [  [top_layer],
                 [days_layer],
                 [dates_layers],
@@ -484,7 +490,7 @@ def window_change_user_creation(win_location, user):
                         margins=(0, 0),
                         grab_anywhere=True,
                         alpha_channel=0.8,
-                        right_click_menu=[[''], ['Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place", 'Exit',]],
+                        right_click_menu=[[''], ['Exit',]],
                         no_titlebar=True,
                         finalize=True,
                         location=win_location,
@@ -579,8 +585,16 @@ def color_decider(data):
 #                 image.save(fp=f"Weather and Pollution/icons/{i}.png")                            
 
 def main(user,win_location):
+    while True:
+        checking_for_login()
+        try:
+            latitude, longitude = Network_communication.get_latitude_longitude(user)
+            break
+        except TypeError:
+            sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
+            
+            
 
-    latitude, longitude = Network_communication.get_latitude_longitude(user)
     Network_communication.get_current_weather_data(latitude, longitude, user)
     Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
     Network_communication.get_current_pollution(latitude, longitude, user)
@@ -601,6 +615,7 @@ def main(user,win_location):
 #'Current Weather', "Current Pollution", "Forecast Weather", "Forecast Pollution","Change Place"
     while True:
         event, value = window.read(timeout=200)
+        win_location = window.current_location()
         if event == "Exit":
             sg.user_settings_set_entry('-win location-', window.current_location())
             break
@@ -630,25 +645,35 @@ def main(user,win_location):
             windo_copy.close()
         elif event == "Change Place":
             sg.user_settings_set_entry('-win location-', window.current_location())
-            windo_copy = window
-            window, alpha2_json = window_change_user_creation(win_location, user)
-            windo_copy.close()
-        
+            
+            while True:
+                    window.close()
+                    checking_for_login()
+                    try:
+                        latitude, longitude = Network_communication.get_latitude_longitude(user)
+                        break
+                    except TypeError:
+                        sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
 
-        # if event == '-submit-':
-        #     print(value["-alpha 2 code-"], value["-place input-"])
-        #     if value["-alpha 2 code-"] not in alpha2_json:
-        #          pass
-        #     else:
-        #         User.set_place_name(value["-place input-"])
-        #         User.set_Alpha2_code_for_country(value["-place input-"])
+            Network_communication.get_current_weather_data(latitude, longitude, user)
+            Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+            Network_communication.get_current_pollution(latitude, longitude, user)
+            Network_communication.get_forcast_air_polution(latitude, longitude, user)
 
+            Parsed.loading_current_weather(user)
+            Parsed.loading_pollution()
 
-        if event == "-forecast weather update-":
-            latitude, longitude = Network_communication.get_latitude_longitude(user)
+            days_pollution = Parsed.get_days_for_forecast(1)
+            days_weather = Parsed.get_days_for_forecast(2)
+            Parsed.loading_forecast_pollution(days_pollution)
+            Parsed.loading_forecast_weather(days_weather,user)
+            window = window_Current_weather_creation(win_location)
+
+        if event == "-forecast weather update-":        
             Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
             Parsed.loading_forecast_weather(days_weather, user)
             windo_copy = window
+            sg.user_settings_set_entry('-win location-', window.current_location())
             window = window_forcast_weather_creation(win_location, days_weather)
             windo_copy.close()
 
@@ -680,19 +705,33 @@ def main(user,win_location):
             current_time = datetime.datetime.now().strftime('%H:%M:%S')
             window["-TIME-"].update(current_time)
 
+def checking_for_login():
+    window, alpha2_json = window_change_user_creation(win_location, user)
+    while True:
+        event, value = window.read()
+        if event == "Exit":
+            sg.user_settings_set_entry('-win location-', window.current_location())
+            break
+        if event == "-submit-":
+            if value["-alpha 2 code-"] not in alpha2_json:
+                 pass
+            else:
+                place = value["-place input-"]
+                code = value["-alpha 2 code-"]
+                user.set_place_name(place)
+                user.set_Alpha2_code_for_country(code)
+                window.close()
+                print(user.location, user.alpha_2_code)
+                break
+    return
 
 if __name__ == "__main__":
     user = User()
-    user.set_place_name()
-    user.set_Alpha2_code_for_country()
     user.set_API_key()
     win_location = sg.user_settings_get_entry('-win location-', (None, None))
     #if not isinstance(win_location, tuple) or len(win_location) != 2 or not all(isinstance(val, (int, float)) for val in win_location):
         # Set a default location if the retrieved value is not valid
-        #win_location = (None, None)
-    
+        #win_location = (None, None)           
     print(win_location)
     main(user,win_location)
-
-
 

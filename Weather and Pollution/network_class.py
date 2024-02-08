@@ -2,6 +2,7 @@ import json, urllib.request, time
 from style_class import Style
 from io import BytesIO
 from PIL import Image, ImageTk
+import PySimpleGUI as sg
 class Network_communication:
 
     def url_access(url):
@@ -12,24 +13,27 @@ class Network_communication:
                 if status_code == 200:
                     return body
             except:
-                print("WROOOOOOOOOOOONG")
+                pass
             
     def get_latitude_longitude(user)-> tuple[float, float]:
+        print(user.location)
+        
         """  Gets latitude and longitude based on user.place and user.alpha_2_code """
 
         url = f"http://api.openweathermap.org/geo/1.0/direct?q={user.location}&limit={5}&appid={user.api_key}"
-        response = Network_communication.url_access(url)
-        if response:
-            result = json.loads(response)
-            #print(json.dumps(result, indent=2))                    #for finding bugs in json.load   
-            for i in range(len(result)):
-                if result[i].get('country') == user.alpha_2_code:
-                    latitude = result[i].get("lat")
-                    longitude = result[i].get('lon')
-                    return (latitude, longitude)
-        else:
-            print(f"{Style.RED}Wrong City name or wrong country name, pls look ISO 3166 for guidence on country codes{Style.END_COLOR}")
-        return
+        try:
+            response = Network_communication.url_access(url)
+        except urllib.error.HTTPError:
+            sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
+
+        result = json.loads(response)
+        #print(json.dumps(result, indent=2))                    #for finding bugs in json.load   
+        for i in range(len(result)):
+            if result[i].get('country') == user.alpha_2_code:
+                latitude = result[i].get("lat")
+                longitude = result[i].get('lon')
+                return (latitude, longitude)
+            
             
     def get_current_weather_data(latitude: float, longitude: float, user):
         """ Current weather for your location sends data to `all the json files` """

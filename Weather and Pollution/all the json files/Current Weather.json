@@ -1,44 +1,47 @@
 {
   "coord": {
-    "lon": 19.6998,
-    "lat": 43.7265
+    "lon": -9.1366,
+    "lat": 38.7078
   },
   "weather": [
     {
-      "id": 804,
-      "main": "Clouds",
-      "description": "overcast clouds",
-      "icon": "04n"
+      "id": 500,
+      "main": "Rain",
+      "description": "light rain",
+      "icon": "10d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 3.94,
-    "feels_like": 2.03,
-    "temp_min": 3.94,
-    "temp_max": 3.94,
-    "pressure": 1013,
-    "humidity": 85,
-    "sea_level": 1013,
-    "grnd_level": 900
+    "temp": 15.47,
+    "feels_like": 15.34,
+    "temp_min": 14.42,
+    "temp_max": 16.53,
+    "pressure": 1007,
+    "humidity": 87
   },
-  "visibility": 10000,
+  "visibility": 6000,
   "wind": {
-    "speed": 2.1,
-    "deg": 211,
-    "gust": 1.82
+    "speed": 11.32,
+    "deg": 190,
+    "gust": 16.46
+  },
+  "rain": {
+    "1h": 0.61
   },
   "clouds": {
-    "all": 99
+    "all": 75
   },
-  "dt": 1707334975,
+  "dt": 1707399391,
   "sys": {
-    "country": "RS",
-    "sunrise": 1707285114,
-    "sunset": 1707321524
+    "type": 1,
+    "id": 6901,
+    "country": "PT",
+    "sunrise": 1707377783,
+    "sunset": 1707415505
   },
-  "timezone": 3600,
-  "id": 3302765,
-  "name": "Zlatibor",
+  "timezone": 0,
+  "id": 6930126,
+  "name": "Chiado",
   "cod": 200
 }
