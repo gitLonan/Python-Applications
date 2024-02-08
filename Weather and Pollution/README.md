@@ -15,7 +15,7 @@ This Weather App utilizes the **OpenWeather API** to provide users with current 
 - **Forecast Weather**: Get a forecast of weather conditions for the next few days.
 - **Forecast Pollution Levels**: View the forecasted pollution levels for the next few days.
 - **Change location**: Change your location by typing in the name of the place and alpha 2 code(string of lenght two that represent your country)  
-  
+
 ### Screenshots:  
   
 1. **Current Weather**
