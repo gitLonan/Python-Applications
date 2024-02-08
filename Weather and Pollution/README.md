@@ -60,12 +60,14 @@ Just right click, since PySimpleGui has it's own limits, for some parts of the s
 
 1. Clone repository: https://github.com/MujoHarac/Python-Applications.git
 
-2. Colors by an increase of pollution from left to right  
+2. Make sure you have all the dependencies installed on your computer.
+
+3. Colors by an increase of pollution from left to right  
 ![Alt Text](/Weather%20and%20Pollution/Screenshots/colors_representing_pollution_levels.PNG)
 
 
 
-## Technologies Used
+## Technologies and Libraries Used
 
 - Python 3.9.5
 - PySimpleGUI
