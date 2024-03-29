@@ -385,7 +385,8 @@ def window_forcast_pollution_creation(win_location, days_pollution):
         if index_in_list > 6:
              index_in_list = 6
         metric = days_average_pollution[index_list][index_in_list]
-        #print(metric)
+        print(days_average_pollution)
+        print(metric)
         chemical_layer = [metric_pollution_bar(metric,chemical_symbols[index_list])]
         pause_layer.append(chemical_layer)
         index_list += 1

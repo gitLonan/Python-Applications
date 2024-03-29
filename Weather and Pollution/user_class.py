@@ -29,5 +29,5 @@ class User:
         self.alpha_2_code = code.upper()
 
     def set_API_key(self):
-        key = ""
+        key = "b885a811ff1c82c0621f6a1b9cb9c10b"
         self.api_key = key

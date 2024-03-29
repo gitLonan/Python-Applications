@@ -124,7 +124,7 @@ class Parsed:
     def loading_pollution():
         with open("Weather and Pollution/all the json files/Current Pollution.json", "r") as f:
             data = json.load(f)
-            #get to the dict thats raping dicts with list called ->`list` in json
+            #get to the dict thats maping dicts with list called ->`list` in json
             for key, value in data.items():
                 if type(value) == list:
                     break
