@@ -34,36 +34,36 @@ Shows current pollution level for the pollutants:
     - **NH3-Ammonia**  
 By hovering with your mouse over the choosen bar it will show you it's number, the color will represent how polluted it is
 -For the meanings of color go to [Getting Started](#getting-started)  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/current_pollution.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/current_pollution.PNG)  
   
 3. **Forecast Weather**  
 Shows temperature for the next few days and it's highest and lowest projection  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/forecast_weather.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/forecast_weather.PNG)  
 
 4. **Forecast Pollution Levels**  
 Shows average levels of pollution for the said pollutants for the given day, same as before, by hovering with your mouse you get to see number and what element it is  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/forecast_pollution.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/forecast_pollution.PNG)  
   
 5. **Change Location**  
 On the picture you can see you have two input fields to fill, first one is *location*, it can be city, region, small city, any place you want and if the OpenWeather database doesn't have anything with said name it will create a **pop up** and tell you.(check if you typed the name correctly, just google it). Second one is *alpha 2 code*, every country is represented by a code, and it is a string of lenght two, just scroll and find your country, they are orderd alphabeticaly.  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/change_location.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/change_location.PNG)  
   
 6. **How to change between said features**  
 Just right click, since PySimpleGui has it's own limits, for some parts of the screen it won't work, thats because padding for the text creates unclickable 'zones', soo just try somewhere else.  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/right_click.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/right_click.PNG)  
 
 
 ## Getting Started
 -Before you get all hyped up about this app first you gotta **register** at [OpenWeather](https://openweathermap.org/). By doing soo you will get your own **API key** which you'll be able to make all the needed API calls from the server.  
 -Then you will need to copy the said key from their site and paste it in `user_class.py` in variable: **`key`**
-![Alt Text](/Weather%20and%20Pollution/Screenshots/for_API_key.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/for_API_key.PNG)  
 
 1. Clone repository: https://github.com/MujoHarac/Python-Applications.git
 
 2. Make sure you have all the dependencies installed on your computer.
 
 3. Colors by an increase of pollution from left to right  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/colors_representing_pollution_levels.PNG)
+![Alt Text](/Weather_and_Pollution/Screenshots/colors_representing_pollution_levels.PNG)
 
 
 
