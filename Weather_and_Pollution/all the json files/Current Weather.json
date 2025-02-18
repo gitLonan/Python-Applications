@@ -1,0 +1,44 @@
+{
+  "coord": {
+    "lon": 21.3265,
+    "lat": 43.5826
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 1.62,
+    "feels_like": -0.56,
+    "temp_min": 1.62,
+    "temp_max": 1.62,
+    "pressure": 1026,
+    "humidity": 60,
+    "sea_level": 1026,
+    "grnd_level": 992
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 1.99,
+    "deg": 354,
+    "gust": 2.47
+  },
+  "clouds": {
+    "all": 70
+  },
+  "dt": 1739886249,
+  "sys": {
+    "country": "RS",
+    "sunrise": 1739856541,
+    "sunset": 1739894911
+  },
+  "timezone": 3600,
+  "id": 788975,
+  "name": "Kru\u0161evac",
+  "cod": 200
+}
