@@ -20,7 +20,7 @@ This Weather App utilizes the **OpenWeather API** to provide users with current 
   
 1. **Current Weather**
 Shows current temperature, date, time and metrics on the right side  
-![Alt Text](/Weather%20and%20Pollution/Screenshots/current_weather.PNG)  
+![Alt Text](/Weather_and_Pollution/Screenshots/current_weather.PNG)  
   
 2. **Current Pollution Levels**  
 Shows current pollution level for the pollutants:  
