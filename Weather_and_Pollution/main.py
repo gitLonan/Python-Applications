@@ -5,10 +5,10 @@ from io import BytesIO
 from PIL import Image, ImageTk
 
 
-from style_class import Style
-from user_class import User
-from network_class import Network_communication
-from parse_class import Parsed
+from Style import Style
+from User import User
+from NetworkCommunication import NetworkCommunication
+from Parser import Parsed
 
 
 sg.theme('LightBlue6')
@@ -43,7 +43,7 @@ def window_Current_weather_creation(win_location):
     current_date = f'{day:02d}-{month:02d}-{year}'
 
     #Getting img from the weeb
-    image = Network_communication.request_weather_icon(Parsed.weather_data["icon"])
+    image = NetworkCommunication.request_weather_icon(Parsed.weather_data["icon"])
     #Getting sec,min,hour from the datetime module
     current_time = datetime.datetime.now().strftime('%H:%M:%S')
 
@@ -172,7 +172,7 @@ def window_forcast_weather_creation(win_location,days_weather):
     
     def icon_provider(num):
                 icon = Parsed.weather_data_forecast['icon'][f'{days_weather[num]}'][0]
-                filename = f"C:/SVEE/Programi/Python skripte/Github - repositories/Python-Applications/Weather_and_Pollution/icons/{icon}.png"
+                filename = f"icons/{icon}.png"
                 return sg.Image(filename, size=(70,70),background_color=BG_COLOR, pad=(16,0))
         
     def description_provider(num):
@@ -436,7 +436,7 @@ def window_change_user_creation(win_location, user):
                     [sg.Button("Submit", font=('Arial', 10), pad=(0,0), enable_events=True, key='-submit-')]]
     
     alpha2_list = []
-    with open(r"C:/SVEE/Programi/Python skripte/Github - repositories/Python-Applications/Weather_and_Pollution/all the json files/Alpha_2_country_codes.json", "r") as file:
+    with open(r"all the json files/Alpha_2_country_codes.json", "r") as file:
         data = json.load(file)
         json_string = json.dumps(data, indent=2)
         bottom_layer = [sg.Multiline(f"Alpha 2 codes and their countries, find your own and type it above\n{json_string}",
@@ -542,17 +542,17 @@ def main(user,win_location):
     while True:
         checking_for_login()
         try:
-            latitude, longitude = Network_communication.get_latitude_longitude(user)
+            latitude, longitude = NetworkCommunication.get_latitude_longitude(user)
             break
         except TypeError:
             sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in the Country?')
             
             
 
-    Network_communication.get_current_weather_data(latitude, longitude, user)
-    Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
-    Network_communication.get_current_pollution(latitude, longitude, user)
-    Network_communication.get_forcast_air_polution(latitude, longitude, user)
+    NetworkCommunication.get_current_weather_data(latitude, longitude, user)
+    NetworkCommunication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+    NetworkCommunication.get_current_pollution(latitude, longitude, user)
+    NetworkCommunication.get_forcast_air_polution(latitude, longitude, user)
 
     Parsed.loading_current_weather(user)
     Parsed.loading_pollution()
@@ -601,15 +601,15 @@ def main(user,win_location):
                     window.close()
                     checking_for_login()
                     try:
-                        latitude, longitude = Network_communication.get_latitude_longitude(user)
+                        latitude, longitude = NetworkCommunication.get_latitude_longitude(user)
                         break
                     except TypeError:
                         sg.popup_error('ERROR Obtaining latitude and longitude Data, check if you spelled the name or that name isnt present in Country?')
 
-            Network_communication.get_current_weather_data(latitude, longitude, user)
-            Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
-            Network_communication.get_current_pollution(latitude, longitude, user)
-            Network_communication.get_forcast_air_polution(latitude, longitude, user)
+            NetworkCommunication.get_current_weather_data(latitude, longitude, user)
+            NetworkCommunication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+            NetworkCommunication.get_current_pollution(latitude, longitude, user)
+            NetworkCommunication.get_forcast_air_polution(latitude, longitude, user)
 
             Parsed.loading_current_weather(user)
             Parsed.loading_pollution()
@@ -621,7 +621,7 @@ def main(user,win_location):
             window = window_Current_weather_creation(win_location)
 
         if event == "-forecast weather update-":        
-            Network_communication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
+            NetworkCommunication.get_forecast_weatherFor_5days_data(latitude, longitude, user)
             Parsed.loading_forecast_weather(days_weather, user)
             windo_copy = window
             sg.user_settings_set_entry('-win location-', window.current_location())
@@ -629,24 +629,24 @@ def main(user,win_location):
             windo_copy.close()
 
         elif event == "-forecast pollution update-":
-            latitude, longitude = Network_communication.get_latitude_longitude(user)
-            Network_communication.get_forcast_air_polution(latitude, longitude, user)
+            latitude, longitude = NetworkCommunication.get_latitude_longitude(user)
+            NetworkCommunication.get_forcast_air_polution(latitude, longitude, user)
             Parsed.loading_forecast_pollution(days_pollution)
             windo_copy = window
             window = window_forcast_pollution_creation(win_location, days_pollution)
             windo_copy.close()
 
         elif event == "-current pollution update-":
-            latitude, longitude = Network_communication.get_latitude_longitude(user)
-            Network_communication.get_current_pollution(latitude, longitude, user)
+            latitude, longitude = NetworkCommunication.get_latitude_longitude(user)
+            NetworkCommunication.get_current_pollution(latitude, longitude, user)
             Parsed.loading_pollution()
             windo_copy = window
             window = window_current_polution_creation(win_location)
             windo_copy.close()
 
         elif event == "-current weather update-":
-            latitude, longitude = Network_communication.get_latitude_longitude(user)
-            Network_communication.get_current_weather_data(latitude, longitude, user)     
+            latitude, longitude = NetworkCommunication.get_latitude_longitude(user)
+            NetworkCommunication.get_current_weather_data(latitude, longitude, user)     
             Parsed.loading_current_weather(user)
             windo_copy = window
             window = window_Current_weather_creation(win_location)

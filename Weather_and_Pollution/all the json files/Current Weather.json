@@ -1,44 +1,45 @@
 {
   "coord": {
-    "lon": 21.3265,
-    "lat": 43.5826
+    "lon": 20.4569,
+    "lat": 44.8178
   },
   "weather": [
     {
-      "id": 803,
-      "main": "Clouds",
-      "description": "broken clouds",
-      "icon": "04d"
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 1.62,
-    "feels_like": -0.56,
-    "temp_min": 1.62,
-    "temp_max": 1.62,
-    "pressure": 1026,
-    "humidity": 60,
-    "sea_level": 1026,
-    "grnd_level": 992
+    "temp": 12.59,
+    "feels_like": 10.79,
+    "temp_min": 11.71,
+    "temp_max": 12.97,
+    "pressure": 1031,
+    "humidity": 34,
+    "sea_level": 1031,
+    "grnd_level": 1016
   },
   "visibility": 10000,
   "wind": {
-    "speed": 1.99,
-    "deg": 354,
-    "gust": 2.47
+    "speed": 2.06,
+    "deg": 320
   },
   "clouds": {
-    "all": 70
+    "all": 0
   },
-  "dt": 1739886249,
+  "dt": 1742469884,
   "sys": {
+    "type": 2,
+    "id": 2037836,
     "country": "RS",
-    "sunrise": 1739856541,
-    "sunset": 1739894911
+    "sunrise": 1742445683,
+    "sunset": 1742489392
   },
   "timezone": 3600,
-  "id": 788975,
-  "name": "Kru\u0161evac",
+  "id": 6290252,
+  "name": "Serbia",
   "cod": 200
 }
